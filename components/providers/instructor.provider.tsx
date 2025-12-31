@@ -11,7 +11,7 @@ const InstructorProvider = ({ children }: ChildProps) => {
 
   useEffect(() => {
     if (user?.role !== "INSTRUCTOR") {
-      router.push("/");
+      // router.push("/");
     }
   }, []);
 

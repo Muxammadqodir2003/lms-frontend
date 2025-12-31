@@ -82,3 +82,18 @@ export const instructorApi = baseApi.injectEndpoints({
     }),
   }),
 });
+
+export const {
+  useCreateCourseMutation,
+  useUpdateCourseMutation,
+  useGetCourseBySlugQuery,
+  useDeleteCourseMutation,
+  useGetSectionsQuery,
+  useCreateSectionMutation,
+  useUpdateSectionMutation,
+  useDeleteSectionMutation,
+  useGetLessonsQuery,
+  useCreateLessonMutation,
+  useUpdateLessonMutation,
+  useDeleteLessonMutation,
+} = instructorApi;

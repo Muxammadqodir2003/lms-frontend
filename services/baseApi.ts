@@ -2,15 +2,14 @@ import { RootState } from "@/store/store";
 import { logout, setCredentials } from "@/store/user/user.slice";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
 import {
-  BaseQueryApi,
   BaseQueryFn,
   createApi,
   FetchArgs,
   fetchBaseQuery,
-} from "@reduxjs/toolkit/query";
+} from "@reduxjs/toolkit/query/react";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${process.env.BASE_API_URL}/api`,
+  baseUrl: `http://localhost:4000/api`,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const token = (getState() as RootState).user.token;

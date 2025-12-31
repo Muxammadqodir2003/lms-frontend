@@ -31,7 +31,7 @@ const AuthProvider = ({ children }: ChildProps) => {
       !localStorage.getItem("accessToken") &&
       !pathname.includes("recovery-account")
     ) {
-      router.push("/auth");
+      // router.push("/auth");
       return;
     }
     if (localStorage.getItem("accessToken")) {
