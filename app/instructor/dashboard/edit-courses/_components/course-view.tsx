@@ -1,13 +1,25 @@
-import { Container } from "@chakra-ui/react/container";
+"use client";
+
 import CourseCard from "./course-card";
+import { Box, Heading, Loader } from "@chakra-ui/react";
+import { useGetAllCoursesQuery } from "@/services/instructor/instructorApi";
 
 const CourseView = () => {
+  const { data, isLoading, isError } = useGetAllCoursesQuery();
+
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Error</div>;
+
   return (
-    <Container maxWidth={"6xl"} mx={"auto"} mt={"16"} bg={"gray.700"}>
-      {Array.from({ length: 5 }).map((_, idx) => (
-        <CourseCard />
-      ))}
-    </Container>
+    <Box display="flex" flexWrap="wrap" gap="2">
+      {data && data.length > 0 ? (
+        data.map((course) => <CourseCard key={course.id} course={course} />)
+      ) : (
+        <Heading size="xl" textAlign="center" mt="16">
+          Course not found
+        </Heading>
+      )}
+    </Box>
   );
 };
 

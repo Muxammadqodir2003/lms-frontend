@@ -1,13 +1,22 @@
+import { ICourse, ILesson, ISection } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const instructorApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
+    getAllCourses: builder.query<ICourse[], void>({
+      query: () => ({
+        url: "/instructor/get-all",
+        method: "GET",
+      }),
+      providesTags: ["Courses"],
+    }),
     createCourse: builder.mutation({
       query: (body) => ({
         url: "/course/create",
         method: "POST",
         body,
       }),
+      invalidatesTags: ["Courses"],
     }),
     updateCourse: builder.mutation({
       query: ({ courseId, body }) => ({
@@ -15,8 +24,9 @@ export const instructorApi = baseApi.injectEndpoints({
         method: "PATCH",
         body,
       }),
+      invalidatesTags: ["Courses"],
     }),
-    getCourseBySlug: builder.query({
+    getCourseBySlug: builder.query<ICourse, string>({
       query: (slug: string) => ({
         url: `/course/${slug}`,
         method: "GET",
@@ -24,11 +34,12 @@ export const instructorApi = baseApi.injectEndpoints({
     }),
     deleteCourse: builder.mutation({
       query: (id: string) => ({
-        url: `/course/${id}`,
+        url: `/course/delete/${id}`,
         method: "DELETE",
       }),
+      invalidatesTags: ["Courses"],
     }),
-    getSections: builder.query({
+    getSections: builder.query<ISection[], string>({
       query: (courseId) => ({
         url: `/section/get-all/${courseId}`,
         method: "GET",
@@ -54,7 +65,7 @@ export const instructorApi = baseApi.injectEndpoints({
         method: "DELETE",
       }),
     }),
-    getLessons: builder.query({
+    getLessons: builder.query<ILesson[], string>({
       query: (sectionId) => ({
         url: `/lesson/get-all/${sectionId}`,
         method: "GET",
@@ -84,6 +95,7 @@ export const instructorApi = baseApi.injectEndpoints({
 });
 
 export const {
+  useGetAllCoursesQuery,
   useCreateCourseMutation,
   useUpdateCourseMutation,
   useGetCourseBySlugQuery,

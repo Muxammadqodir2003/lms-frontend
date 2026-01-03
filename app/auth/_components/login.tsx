@@ -9,11 +9,11 @@ import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
 import { LoginFormValues } from "@/types";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { toaster } from "@/components/ui/toaster";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "@/store/hooks";
 
 const Login = () => {
   const router = useRouter();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [login, { isLoading }] = useLoginMutation();
   const { setState } = useAuthState();
 

@@ -1,10 +1,10 @@
+import CourseForm from "@/components/shared/course-form";
 import { Container } from "@chakra-ui/react/container";
-import CourseView from "./_components/course-view";
 
 const Page = () => {
   return (
     <Container maxWidth={"6xl"} mx={"auto"} mt={"16"} bg={"gray.900"}>
-      <CourseView />
+      <CourseForm />
     </Container>
   );
 };

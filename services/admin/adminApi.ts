@@ -2,7 +2,7 @@ import { baseApi } from "../baseApi";
 
 export const adminApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getAllInstructor: builder.query({
+    getAllInstructor: builder.query<any, void>({
       query: () => ({
         url: "/instructor/all",
         method: "GET",
@@ -22,3 +22,9 @@ export const adminApi = baseApi.injectEndpoints({
     }),
   }),
 });
+
+export const {
+  useGetAllInstructorQuery,
+  useApproveInstructorMutation,
+  useDeactivateInstructorMutation,
+} = adminApi;

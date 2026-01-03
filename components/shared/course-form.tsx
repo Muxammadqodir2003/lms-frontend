@@ -26,6 +26,7 @@ import {
 } from "@/services/instructor/instructorApi";
 import { toaster } from "../ui/toaster";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
+import { useRouter } from "next/navigation";
 // import ReactQuil from "./react-quil";
 
 const languages = createListCollection({
@@ -107,31 +108,42 @@ const CourseForm = () => {
         }
   );
   const [image, setImage] = useState<File | null>(null);
+  const router = useRouter();
+  console.log(editedCourse);
+  console.log(courseData);
+
   const [createCourse, { isLoading }] = useCreateCourseMutation();
   const [updateCourse, { isLoading: updateLoading }] =
     useUpdateCourseMutation();
 
   const onSubmit = async () => {
     const formData = new FormData();
+    console.log(formData);
 
     for (const key in courseData) {
-      formData.append(key, courseData[key] as string);
+      if (key === "slug") continue;
+      if (courseData[key]) {
+        formData.append(key, courseData[key] as string);
+        console.log(formData);
+      }
     }
-    formData.append("image", image as File);
+    if (!editedCourse) {
+      formData.append("image", image as File);
+    }
     toaster.dismiss();
-    console.log(courseData);
 
     if (!editedCourse) {
       await createCourse(formData)
         .unwrap()
-        .then(() =>
+        .then(() => {
           toaster.success({
             title: "Kurs yaratildi",
             description: "Kursingiz yaratildi",
             type: "success",
             closable: true,
-          })
-        )
+          });
+          router.push("/instructor/dashboard/courses");
+        })
         .catch((error) => {
           console.log(error);
           toaster.error({
@@ -143,20 +155,20 @@ const CourseForm = () => {
         });
     } else {
       await updateCourse({
-        id: editedCourse.id,
-        formData,
+        courseId: editedCourse.id,
+        body: formData,
       })
         .unwrap()
-        .then(() =>
+        .then(() => {
           toaster.success({
             title: "Kurs tahrirlandi",
             description: "Kursingiz tahrirlandi",
             type: "success",
             closable: true,
-          })
-        )
+          });
+          router.push("/instructor/dashboard/courses");
+        })
         .catch((error) => {
-          console.log(error);
           toaster.error({
             title: "Kurs tahrirlashda xatolik",
             description: error.data.message,
@@ -473,7 +485,11 @@ const CourseForm = () => {
                           />
                         </FileUpload.ClearTrigger>
                         <Image
-                          src={URL.createObjectURL(image)}
+                          src={
+                            editedCourse
+                              ? `http://localhost:4000/uploads/images/${editedCourse.image}`
+                              : URL.createObjectURL(image)
+                          }
                           alt="Course Image"
                           width={250}
                           height={150}
@@ -501,7 +517,7 @@ const CourseForm = () => {
               disabled={isLoading}
               onClick={() => onSubmit()}
             >
-              Yaratish
+              {editedCourse ? "Tahrirlash" : "Yaratish"}
             </Button>
           </Form>
         )}

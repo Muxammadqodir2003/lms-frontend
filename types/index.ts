@@ -10,6 +10,19 @@ export interface IUser {
   role: string;
 }
 
+export interface IInstructor {
+  id: string;
+  name: string;
+  email: string;
+  role: string;
+  firstName: string;
+  lastName: string;
+  job: string;
+  language: string;
+  social: string;
+  isActive: boolean;
+}
+
 export interface ICourse {
   id: number;
   slug: string;
