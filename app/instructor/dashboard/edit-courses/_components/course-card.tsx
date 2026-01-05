@@ -75,13 +75,19 @@ const CourseCard = ({ course }: CourseCardProps) => {
         </Card.Description>
       </Card.Body>
       <Card.Footer flexWrap={"wrap"}>
-        <Button variant="subtle" size={"xs"} p={"2"} disabled={isDeleting}>
+        <Button
+          variant="subtle"
+          size={"xs"}
+          p={"2"}
+          disabled={isDeleting || isDeleting}
+        >
           Ko'rib chiqish <FcViewDetails />
         </Button>
         <Button
           variant="subtle"
           size={"xs"}
           p={"2"}
+          disabled={isDeleting || isDeleting}
           onClick={() => {
             setEditedCourse(course);
             router.push(`/instructor/dashboard/edit-courses/${course.slug}`);
@@ -93,12 +99,20 @@ const CourseCard = ({ course }: CourseCardProps) => {
           variant="subtle"
           size={"xs"}
           p={"2"}
-          disabled={isDeleting}
+          disabled={isDeleting || isDeleting}
           onClick={handleDeleteCourse}
         >
           O'chirish <MdDelete />
         </Button>
-        <Button variant="subtle" size={"xs"} p={"2"} disabled={isDeleting}>
+        <Button
+          variant="subtle"
+          size={"xs"}
+          p={"2"}
+          disabled={isDeleting || isDeleting}
+          onClick={() =>
+            router.push(`/instructor/dashboard/curriculum/${course.slug}`)
+          }
+        >
           O'quv dasturi <MdOutlineSchool />
         </Button>
       </Card.Footer>

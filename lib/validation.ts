@@ -53,3 +53,15 @@ export const courseSchema = Yup.object().shape({
   price: Yup.number().required(),
   language: Yup.string().required(),
 });
+
+export const sectionSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Title kamida 3 ta belgidan iborat bo'lishi kerak")
+    .required("Title bo'lishi shart"),
+});
+
+export const lessonSchema = Yup.object().shape({
+  name: Yup.string()
+    .min(3, "Nomi kamida 3 ta belgidan iborat bo'lishi kerak")
+    .required("Nomi bo'lishi shart"),
+});

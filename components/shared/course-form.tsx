@@ -109,8 +109,6 @@ const CourseForm = () => {
   );
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
-  console.log(editedCourse);
-  console.log(courseData);
 
   const [createCourse, { isLoading }] = useCreateCourseMutation();
   const [updateCourse, { isLoading: updateLoading }] =
@@ -118,7 +116,6 @@ const CourseForm = () => {
 
   const onSubmit = async () => {
     const formData = new FormData();
-    console.log(formData);
 
     for (const key in courseData) {
       if (key === "slug") continue;
@@ -245,7 +242,7 @@ const CourseForm = () => {
                       Kursingizda talabalar nima o'rganadilar
                     </TagsInput.Label>
                     <TagsInput.Control>
-                      <TagsInput.Items pl={"1"} />
+                      <TagsInput.Items pl={"1"} colorPalette={"purple"} />
                       <TagsInput.Input w={"full"} pl={"2"} />
                     </TagsInput.Control>
                   </TagsInput.Root>
@@ -253,6 +250,7 @@ const CourseForm = () => {
                 <Field.Root mt={"2"}>
                   <TagsInput.Root
                     variant={"outline"}
+                    size={"sm"}
                     value={courseData.requirements.split(",")}
                     onValueChange={({ value }) =>
                       setCourseData({
@@ -264,9 +262,29 @@ const CourseForm = () => {
                     <TagsInput.Label fontSize={"xl"}>
                       Kursingiz talablari
                     </TagsInput.Label>
-                    <TagsInput.Control>
-                      <TagsInput.Items pl={"1"} />
-                      <TagsInput.Input w={"full"} pl={"2"} />
+                    <TagsInput.Control bg={"transparent"}>
+                      <TagsInput.Context>
+                        {({ value }) =>
+                          value.map((tag, index) => (
+                            <TagsInput.Item
+                              key={index}
+                              index={index}
+                              value={tag}
+                            >
+                              <TagsInput.ItemPreview
+                                px={"2"}
+                                bg={"blue.800"}
+                                ml={1}
+                              >
+                                <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                                <TagsInput.ItemDeleteTrigger />
+                              </TagsInput.ItemPreview>
+                              <TagsInput.ItemInput />
+                            </TagsInput.Item>
+                          ))
+                        }
+                      </TagsInput.Context>
+                      <TagsInput.Input w={"full"} />
                     </TagsInput.Control>
                   </TagsInput.Root>
                 </Field.Root>

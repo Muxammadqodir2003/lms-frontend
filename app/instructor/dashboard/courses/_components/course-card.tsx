@@ -8,8 +8,9 @@ import { CiClock1 } from "react-icons/ci";
 import { SiBetterstack } from "react-icons/si";
 import { Separator } from "@chakra-ui/react/separator";
 import { Button } from "@chakra-ui/react/button";
+import { ICourse } from "@/types";
 
-const CourseCard = () => {
+const CourseCard = ({ course }: { course: ICourse }) => {
   return (
     <HStack w={"full"} h={"250px"} bg={"gray.900"} p={"4"}>
       <VStack
@@ -18,8 +19,8 @@ const CourseCard = () => {
         alignItems={"start"}
         justifyContent={"center"}
       >
-        <Text color={"blue.500"}>Beginner</Text>
-        <Heading size={"4xl"}>JavaScript asoslari</Heading>
+        <Text color={"blue.500"}>{course.level}</Text>
+        <Heading size={"4xl"}>{course.title}</Heading>
         <HStack mt={"2"}>
           <HStack>
             <MdPlayLesson />
@@ -31,7 +32,7 @@ const CourseCard = () => {
           </HStack>
           <HStack>
             <SiBetterstack />
-            <Text>Beginner</Text>
+            <Text>{course.level}</Text>
           </HStack>
         </HStack>
         <Separator w={"full"} />
@@ -40,7 +41,11 @@ const CourseCard = () => {
         </Button>
       </VStack>
       <Box position={"relative"} w={"1/4"} h={"full"}>
-        <Image src={"/community.png"} alt="" fill />
+        <Image
+          src={`http://localhost:4000${course.image.split("public")[1]}`}
+          alt=""
+          fill
+        />
       </Box>
     </HStack>
   );
