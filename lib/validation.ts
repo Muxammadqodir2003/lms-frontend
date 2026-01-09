@@ -40,6 +40,14 @@ export const passwordSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Parollar mos emas"),
 });
 
+export const becomeInstructorSchema = Yup.object().shape({
+  firstName: Yup.string().required("Ism bo'lishi shart"),
+  lastName: Yup.string().required("Familiyasi bo'lishi shart"),
+  job: Yup.string().required("Job bo'lishi shart"),
+  language: Yup.string().required("Til bo'lishi shart"),
+  social: Yup.string().required("Ijtimoiy tarmoq havolasi bo'lishi shart"),
+});
+
 export const courseSchema = Yup.object().shape({
   slug: Yup.string().required("Slug bo'lishi shart"),
   title: Yup.string().required("Title bo'lishi shart"),

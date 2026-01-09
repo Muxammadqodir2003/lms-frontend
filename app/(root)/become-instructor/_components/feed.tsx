@@ -1,14 +1,14 @@
 "use client";
 
-import { Heading } from "@chakra-ui/react/heading";
 import { Box } from "@chakra-ui/react/box";
-import Image from "next/image";
+import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
-import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useInstructorModalStore } from "@/hooks/use-instructor-modal";
 
 const Feed = () => {
-  const router = useRouter();
+  const { open, setOpen } = useInstructorModalStore();
 
   return (
     <Box
@@ -22,25 +22,22 @@ const Feed = () => {
     >
       <Box w={"1/2"} p={"4"} spaceY={"4"}>
         <Heading size={"4xl"} fontWeight={"bold"}>
-          O'zingizga mos kursni toping
+          Become an instructor
         </Heading>
         <Text>
           Lorem ipsum dolor sit, amet consectetur adipisicing elit. Blanditiis,
           maiores animi? Illo odit eum aperiam.
         </Text>
         <Box display={"flex"} w={"full"} spaceX={"2"}>
-          <Button cursor={"pointer"} w={"1/2"} p={"6"} fontSize={"md"}>
-            O'rganishni boshlang
-          </Button>
           <Button
             variant={"outline"}
             cursor={"pointer"}
             w={"1/2"}
             p={"6"}
             fontSize={"md"}
-            onClick={() => router.push("/become-instructor")}
+            onClick={() => setOpen(true)}
           >
-            O'qituvchi bo'ling
+            Get started
           </Button>
         </Box>
       </Box>

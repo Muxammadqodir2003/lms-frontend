@@ -26,7 +26,6 @@ const Login = () => {
     values: LoginFormValues,
     actions: FormikHelpers<LoginFormValues>
   ) {
-    console.log(values);
     try {
       toaster.dismiss();
       const data = await login(values).unwrap();
@@ -35,10 +34,9 @@ const Login = () => {
       router.push("/");
     } catch (error) {
       toaster.error({
+        title: "Xatolik",
         // @ts-ignore
         description: error.data.message,
-        type: "error",
-        closable: true,
       });
     }
   }

@@ -8,13 +8,10 @@ export interface IUser {
   id: string;
   email: string;
   role: string;
+  instructorProfile: IInstructorProfile;
 }
 
-export interface IInstructor {
-  id: string;
-  name: string;
-  email: string;
-  role: string;
+export interface IInstructorProfile {
   firstName: string;
   lastName: string;
   job: string;
