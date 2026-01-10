@@ -1,3 +1,4 @@
+import { ICourse, IFilters } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -9,7 +10,17 @@ export const userApi = baseApi.injectEndpoints({
         body,
       }),
     }),
+    getAllCourses: builder.query<
+      { courses: ICourse[]; totalCourses: number },
+      IFilters
+    >({
+      query: (filters) => ({
+        url: "/course/get-all-courses",
+        method: "GET",
+        params: filters,
+      }),
+    }),
   }),
 });
 
-export const { useBecomeInstructorMutation } = userApi;
+export const { useBecomeInstructorMutation, useGetAllCoursesQuery } = userApi;

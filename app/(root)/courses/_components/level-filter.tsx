@@ -1,6 +1,6 @@
 "use client";
 
-import { filterByLevel } from "@/store/courses/courses.slice";
+import { filterByLevel } from "@/store/filters/filters.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
@@ -12,7 +12,7 @@ const items = [
 ];
 
 const LevelFilter = () => {
-  const coursesState = useAppSelector((state) => state.courses);
+  const coursesState = useAppSelector((state) => state.filters);
   const dispatch = useAppDispatch();
 
   return (

@@ -3,12 +3,14 @@ import userReducer from "./user/user.slice";
 import coursesReducer from "./courses/courses.slice";
 import { baseAuthApi } from "@/services/baseAuthApi";
 import { baseApi } from "@/services/baseApi";
+import filtersReducer from "./filters/filters.slice";
 
 export const store = () => {
   return configureStore({
     reducer: {
       user: userReducer,
       courses: coursesReducer,
+      filters: filtersReducer,
       [baseApi.reducerPath]: baseApi.reducer,
       [baseAuthApi.reducerPath]: baseAuthApi.reducer,
     },

@@ -79,5 +79,6 @@ export const {
   filterByLevel,
   filterByLanguage,
   filterByRating,
+  setCourses,
 } = coursesSlice.actions;
 export default coursesSlice.reducer;

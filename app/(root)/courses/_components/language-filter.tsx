@@ -3,7 +3,7 @@
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
-import { filterByLanguage } from "@/store/courses/courses.slice";
+import { filterByLanguage } from "@/store/filters/filters.slice";
 
 const items = [
   { label: "Uz", value: "uz" },
@@ -13,7 +13,7 @@ const items = [
 ];
 
 const LanguageFilter = () => {
-  const coursesState = useAppSelector((state) => state.courses);
+  const coursesState = useAppSelector((state) => state.filters);
   const dispatch = useAppDispatch();
 
   return (

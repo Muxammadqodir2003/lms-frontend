@@ -10,8 +10,13 @@ import { SiBetterstack } from "react-icons/si";
 import { MdPlayLesson } from "react-icons/md";
 import { Button, Flex, Separator } from "@chakra-ui/react";
 import { BiCard } from "react-icons/bi";
+import { ICourse } from "@/types";
 
-const CourseCard = () => {
+interface CourseCardProps {
+  course: ICourse;
+}
+
+const CourseCard = ({ course }: CourseCardProps) => {
   return (
     <>
       <Box
@@ -24,8 +29,8 @@ const CourseCard = () => {
       >
         <Box h={"full"} w={"40%"} position={"relative"}>
           <Image
-            src={"/community.png"}
-            alt="Course image"
+            src={`http://localhost:4000${course.image.split("public")[1]}`}
+            alt={`course image ${course.title}`}
             fill
             objectFit="object-contain"
           />
@@ -37,7 +42,7 @@ const CourseCard = () => {
               readOnly
               allowHalf
               count={5}
-              defaultValue={5}
+              defaultValue={course.rating}
               size="sm"
               colorPalette={"orange"}
             >
@@ -49,7 +54,7 @@ const CourseCard = () => {
           </HStack>
           <VStack alignItems={"start"}>
             <Heading size={"2xl"} mt={"2"}>
-              Javascript asoslari
+              {course.title}
             </Heading>
             <Text color={"gray.400"}>
               Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
@@ -73,13 +78,18 @@ const CourseCard = () => {
             </HStack>
             <HStack>
               <SiBetterstack />
-              <Text>Beginner</Text>
+              <Text>{course.level}</Text>
             </HStack>
           </HStack>
           <Separator w={"full"} mt={"2"} />
 
           <Flex justifyContent={"space-between"} mt={"2"}>
-            <Heading size={"2xl"}>$20.00</Heading>
+            <Heading size={"2xl"}>
+              {course.price.toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </Heading>
 
             <HStack>
               <Button p={"4"} color={"#fff"} bg={"green.800"}>

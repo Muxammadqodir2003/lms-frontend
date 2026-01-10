@@ -2,9 +2,8 @@
 
 import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
-import { filterByCategory } from "@/store/courses/courses.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { Button } from "@chakra-ui/react";
+import { filterByCategory } from "@/store/filters/filters.slice";
 
 const items = [
   { label: "Web developer", value: "web" },
@@ -14,7 +13,7 @@ const items = [
 ];
 
 const CategoryFilter = () => {
-  const courseState = useAppSelector((state) => state.courses);
+  const courseState = useAppSelector((state) => state.filters);
   const dispatch = useAppDispatch();
 
   return (

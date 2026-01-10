@@ -1,6 +1,6 @@
 "use client";
 
-import { filterByRating } from "@/store/courses/courses.slice";
+import { filterByRating } from "@/store/filters/filters.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
@@ -14,7 +14,7 @@ const items = [
 ];
 
 const RatingFilter = () => {
-  const coursesState = useAppSelector((state) => state.courses);
+  const coursesState = useAppSelector((state) => state.filters);
   const dispatch = useAppDispatch();
 
   return (
@@ -24,7 +24,7 @@ const RatingFilter = () => {
     >
       <VStack gap="6">
         {items.map((item) => (
-          <RadioGroup.Item key={item.value} value={item.value}>
+          <RadioGroup.Item key={item.value} value={String(item.quantity)}>
             <RadioGroup.ItemHiddenInput />
             <RadioGroup.ItemIndicator />
             <RadioGroup.ItemText asChild>

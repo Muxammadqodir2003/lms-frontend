@@ -54,6 +54,14 @@ export interface ILesson {
   sectionId: number;
 }
 
+export interface IFilters {
+  category: string | null;
+  level: string | null;
+  language: string | null;
+  rating: string | null;
+  page: number;
+}
+
 export interface RegisterFormValues {
   email: string;
   password: string;
