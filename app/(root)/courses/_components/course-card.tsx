@@ -1,3 +1,5 @@
+"use client";
+
 import { RatingGroup } from "@chakra-ui/react/rating-group";
 import { Box } from "@chakra-ui/react/box";
 import Image from "next/image";
@@ -11,12 +13,15 @@ import { MdPlayLesson } from "react-icons/md";
 import { Button, Flex, Separator } from "@chakra-ui/react";
 import { BiCard } from "react-icons/bi";
 import { ICourse } from "@/types";
+import { useRouter } from "next/navigation";
 
 interface CourseCardProps {
   course: ICourse;
 }
 
 const CourseCard = ({ course }: CourseCardProps) => {
+  const router = useRouter();
+
   return (
     <>
       <Box
@@ -95,7 +100,12 @@ const CourseCard = ({ course }: CourseCardProps) => {
               <Button p={"4"} color={"#fff"} bg={"green.800"}>
                 Add to cart <BiCard />
               </Button>
-              <Button p={"4"}>Detail</Button>
+              <Button
+                p={"4"}
+                onClick={() => router.push(`/courses/${course.slug}`)}
+              >
+                Detail
+              </Button>
             </HStack>
           </Flex>
         </Box>

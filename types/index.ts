@@ -35,6 +35,8 @@ export interface ICourse {
   language: string;
   image: string;
   rating: number;
+  updatedAt: string;
+  instructorId: string;
   sections: ISection[];
 }
 
@@ -50,7 +52,7 @@ export interface ILesson {
   name: string;
   video: string;
   duration: number;
-  desciption?: string;
+  description?: string;
   sectionId: number;
 }
 

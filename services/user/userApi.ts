@@ -1,4 +1,4 @@
-import { ICourse, IFilters } from "@/types";
+import { ICourse, IFilters, IInstructorProfile } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -20,7 +20,47 @@ export const userApi = baseApi.injectEndpoints({
         params: filters,
       }),
     }),
+    getCourseBySlug: builder.query<ICourse & { studentsCount: number }, string>(
+      {
+        query: (slug) => ({
+          url: `/course/get-course-by-slug/${slug}`,
+          method: "GET",
+        }),
+      }
+    ),
+    getCourseComments: builder.query<ICourse, string>({
+      query: (slug) => ({
+        url: `/course/get-course-comments/${slug}`,
+        method: "GET",
+      }),
+    }),
+    getInstructorById: builder.query<IInstructorProfile, string>({
+      query: (id) => ({
+        url: `/instructor/get-by-id/${id}`,
+        method: "GET",
+      }),
+    }),
+    enrollCourse: builder.mutation({
+      query: (courseId) => ({
+        url: `/student/enrollment/${courseId}`,
+        method: "POST",
+      }),
+    }),
+    getEnrolledCourses: builder.query<ICourse[], string>({
+      query: (userId) => ({
+        url: `/student/enrolled-courses/${userId}`,
+        method: "GET",
+      }),
+    }),
   }),
 });
 
-export const { useBecomeInstructorMutation, useGetAllCoursesQuery } = userApi;
+export const {
+  useBecomeInstructorMutation,
+  useGetAllCoursesQuery,
+  useGetCourseBySlugQuery,
+  useGetCourseCommentsQuery,
+  useGetInstructorByIdQuery,
+  useEnrollCourseMutation,
+  useGetEnrolledCoursesQuery,
+} = userApi;
