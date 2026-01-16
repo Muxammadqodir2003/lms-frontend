@@ -64,6 +64,12 @@ export interface IFilters {
   page: number;
 }
 
+export interface IEnrollment {
+  id: number;
+  course: ICourse;
+  progress: number;
+}
+
 export interface RegisterFormValues {
   email: string;
   password: string;

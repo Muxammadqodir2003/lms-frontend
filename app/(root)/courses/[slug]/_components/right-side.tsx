@@ -1,8 +1,12 @@
+"use client";
+
 import { Box } from "@chakra-ui/react/box";
 import { Flex } from "@chakra-ui/react/flex";
 import Image from "next/image";
 import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
+import { useEnrollCourseMutation } from "@/services/user/userApi";
+import { toaster } from "@/components/ui/toaster";
 
 interface RightSideProps {
   image: string;
@@ -11,6 +15,7 @@ interface RightSideProps {
   level: string;
   language: string;
   price: number;
+  courseId: string;
 }
 
 const RightSide = ({
@@ -20,7 +25,23 @@ const RightSide = ({
   level,
   language,
   price,
+  courseId,
 }: RightSideProps) => {
+  const [enrollCourse, { isLoading }] = useEnrollCourseMutation();
+
+  const handleEnrollCourse = async () => {
+    try {
+      await enrollCourse(courseId).unwrap();
+      toaster.success({
+        title: "Success",
+        description: "Course enrolled successfully",
+      });
+    } catch (error) {
+      // @ts-ignore
+      toaster.error({ title: "Error", description: error?.data?.message });
+    }
+  };
+
   return (
     <Flex
       rounded={"md"}
@@ -49,7 +70,9 @@ const RightSide = ({
             currency: "USD",
           })}
         </Text>
-        <Button>Enroll Now</Button>
+        <Button disabled={isLoading} onClick={handleEnrollCourse}>
+          Enroll Now
+        </Button>
         <Flex
           flexDirection={"row"}
           w={"full"}

@@ -1,4 +1,4 @@
-import { ICourse } from "@/types";
+import { ICourse, ISection } from "@/types";
 
 export const getLessons = (course: ICourse) => {
   let result = 0;
@@ -14,6 +14,14 @@ export const getDuration = (course: ICourse) => {
     section.lessons.forEach((lesson) => {
       result += lesson.duration;
     });
+  });
+  return result;
+};
+
+export const getLessonsLength = (section: ISection) => {
+  let result = 0;
+  section?.lessons?.forEach((lesson) => {
+    result += lesson?.duration!;
   });
   return result;
 };

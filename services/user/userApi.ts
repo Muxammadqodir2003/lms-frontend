@@ -1,4 +1,4 @@
-import { ICourse, IFilters, IInstructorProfile } from "@/types";
+import { ICourse, IEnrollment, IFilters, IInstructorProfile } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const userApi = baseApi.injectEndpoints({
@@ -46,9 +46,9 @@ export const userApi = baseApi.injectEndpoints({
         method: "POST",
       }),
     }),
-    getEnrolledCourses: builder.query<ICourse[], string>({
-      query: (userId) => ({
-        url: `/student/enrolled-courses/${userId}`,
+    getEnrolledCourses: builder.query<IEnrollment[], void>({
+      query: () => ({
+        url: `/student/enrolled-courses`,
         method: "GET",
       }),
     }),
