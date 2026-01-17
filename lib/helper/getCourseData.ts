@@ -15,7 +15,9 @@ export const getDuration = (course: ICourse) => {
       result += lesson.duration;
     });
   });
-  return result;
+  const hours = Math.floor(result / 3600);
+  const minutes = Math.floor((result % 3600) / 60);
+  return `${hours}:${minutes}`;
 };
 
 export const getLessonsLength = (section: ISection) => {
@@ -24,4 +26,11 @@ export const getLessonsLength = (section: ISection) => {
     result += lesson?.duration!;
   });
   return result;
+};
+
+export const transformSecondsToMinutes = (seconds: number) => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  return `${minutes}:${remainingSeconds}`;
 };

@@ -20,6 +20,7 @@ import { ICourse } from "@/types";
 import { useRouter } from "next/navigation";
 import { useDeleteCourseMutation } from "@/services/instructor/instructorApi";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
+import { getDuration, getLessons } from "@/lib/helper/getCourseData";
 
 interface CourseCardProps {
   course: ICourse;
@@ -38,13 +39,12 @@ const CourseCard = ({ course }: CourseCardProps) => {
     }
   };
 
-  console.log(`http://localhost:4000${course.image.split("public")[1]}`);
   return (
     <Card.Root width="49.5%" p={"3"}>
       <Card.Body gap="2">
         <Box w={"100%"} h={"250px"} position={"relative"} p={"2"}>
           <Image
-            src={`http://localhost:4000/uploads/images/1767186277035-593739871.jpg`}
+            src={course.image}
             alt={course.title}
             fill
             style={{ objectFit: "cover" }}
@@ -60,11 +60,11 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <HStack mt={"2"}>
             <HStack>
               <MdPlayLesson />
-              <Text> lessons</Text>
+              <Text>{getLessons(course)} lessons</Text>
             </HStack>
             <HStack>
               <CiClock1 />
-              <Text>13.6 hours</Text>
+              <Text>{getDuration(course)} hours</Text>
             </HStack>
             <HStack>
               <SiBetterstack />

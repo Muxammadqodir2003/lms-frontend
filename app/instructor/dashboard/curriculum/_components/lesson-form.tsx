@@ -29,32 +29,41 @@ const LessonForm = ({
     name: editedLesson?.name || "",
   };
 
-  const onSubmit = (values: typeof initialValues) => {
+  const onSubmit = async (values: typeof initialValues) => {
     const formData = new FormData();
     formData.append("name", values.name);
     if (video) formData.append("video", video);
 
-    console.log(formData);
-    try {
-      if (editedLesson?.id) {
-        updateLesson({
+    if (editedLesson?.id) {
+      try {
+        await updateLesson({
           lessonId: editedLesson?.id,
           body: formData,
         }).unwrap();
-      } else {
-        createLesson({
+        toaster.success({
+          title: "Muvaffaqiyatli",
+          description: "Darslik yangilash muvaffaqiyatli",
+        });
+        onClose();
+        setEditedLesson(null);
+      } catch (error) {
+        toaster.error({ title: "Xatolik", description: error?.data?.message });
+      }
+    } else {
+      try {
+        await createLesson({
           sectionId,
           body: formData,
         }).unwrap();
+        toaster.success({
+          title: "Muvaffaqiyatli",
+          description: "Darslik yaratish muvaffaqiyatli",
+        });
+        onClose();
+        setEditedLesson(null);
+      } catch (error) {
+        toaster.error({ title: "Xatolik", description: error?.data?.message });
       }
-      toaster.success({
-        title: "Muvaffaqiyatli",
-        description: "Darslik yaratish muvaffaqiyatli",
-      });
-      onClose();
-      setEditedLesson(null);
-    } catch (error) {
-      toaster.error({ title: "Xatolik", description: error?.data?.message });
     }
   };
 

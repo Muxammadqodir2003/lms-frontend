@@ -9,6 +9,7 @@ import { SiBetterstack } from "react-icons/si";
 import { Separator } from "@chakra-ui/react/separator";
 import { Button } from "@chakra-ui/react/button";
 import { ICourse } from "@/types";
+import { getDuration, getLessons } from "@/lib/helper/getCourseData";
 
 const CourseCard = ({ course }: { course: ICourse }) => {
   return (
@@ -24,11 +25,11 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         <HStack mt={"2"}>
           <HStack>
             <MdPlayLesson />
-            <Text>96 lessons</Text>
+            <Text>{getLessons(course)}</Text>
           </HStack>
           <HStack>
             <CiClock1 />
-            <Text>13.6 hours</Text>
+            <Text>{getDuration(course)}</Text>
           </HStack>
           <HStack>
             <SiBetterstack />
@@ -41,11 +42,7 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         </Button>
       </VStack>
       <Box position={"relative"} w={"1/4"} h={"full"}>
-        <Image
-          src={`http://localhost:4000${course.image.split("public")[1]}`}
-          alt=""
-          fill
-        />
+        <Image src={course.image} alt="" fill />
       </Box>
     </HStack>
   );

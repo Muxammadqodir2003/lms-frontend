@@ -14,6 +14,7 @@ import { Button, Flex, Separator } from "@chakra-ui/react";
 import { BiCard } from "react-icons/bi";
 import { ICourse } from "@/types";
 import { useRouter } from "next/navigation";
+import { getDuration, getLessons } from "@/lib/helper/getCourseData";
 
 interface CourseCardProps {
   course: ICourse;
@@ -33,12 +34,12 @@ const CourseCard = ({ course }: CourseCardProps) => {
         spaceX={"3"}
       >
         <Box h={"full"} w={"40%"} position={"relative"}>
-          <Image
-            src={`http://localhost:4000${course.image.split("public")[1]}`}
+          {/* <Image
+            src={course.image}
             alt={`course image ${course.title}`}
             fill
             objectFit="object-contain"
-          />
+          /> */}
         </Box>
 
         <Box h={"full"} w={"60%"}>
@@ -61,11 +62,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
             <Heading size={"2xl"} mt={"2"}>
               {course.title}
             </Heading>
-            <Text color={"gray.400"}>
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fuga
-              assumenda, minima voluptate dolorem dicta at alias expedita animi
-              illum esse?
-            </Text>
+            <Text color={"gray.400"}>{course.subTitle}</Text>
           </VStack>
           <HStack mt={"2"}>
             <Avatar.Root size={"xl"}>
@@ -75,11 +72,11 @@ const CourseCard = ({ course }: CourseCardProps) => {
             <Text>Samar B.</Text>
             <HStack>
               <MdPlayLesson />
-              <Text>96 lessons</Text>
+              <Text>{getLessons(course)} lessons</Text>
             </HStack>
             <HStack>
               <CiClock1 />
-              <Text>13.6 hours</Text>
+              <Text>{getDuration(course)} hours</Text>
             </HStack>
             <HStack>
               <SiBetterstack />

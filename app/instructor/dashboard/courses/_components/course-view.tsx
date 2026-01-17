@@ -7,6 +7,7 @@ import { Loader } from "@chakra-ui/react";
 
 const CourseView = () => {
   const { data, isLoading, error } = useGetAllCoursesQuery();
+  console.log(data);
 
   if (isLoading) {
     return <Loader />;

@@ -38,9 +38,7 @@ const CourseCard = ({ enrollment }: Props) => {
         </Progress.Root>
         <Text>{enrollment.progress}% tugatildi</Text>
         <Text>{enrollment.course.title}</Text>
-        <Button
-          onClick={() => router.push(`/dashboard/${enrollment.course.slug}`)}
-        >
+        <Button onClick={() => router.push(`/dashboard/javascript`)}>
           Davom ettirish
         </Button>
       </Flex>

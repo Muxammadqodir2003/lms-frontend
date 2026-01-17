@@ -70,7 +70,7 @@ const CourseView = ({ slug }: Props) => {
       </Flex>
       <RightSide
         courseId={String(data?.id!)}
-        image={data?.image.split("public")[1]!}
+        image={data?.image!}
         lessons={getLessons(data!)}
         duration={getDuration(data!)}
         level={data?.level!}

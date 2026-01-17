@@ -1,6 +1,9 @@
 "use client";
 
-import { getLessonsLength } from "@/lib/helper/getCourseData";
+import {
+  getLessonsLength,
+  transformSecondsToMinutes,
+} from "@/lib/helper/getCourseData";
 import { useGetSectionsByCourseSlugQuery } from "@/services/section/sectionApi";
 import { Accordion } from "@chakra-ui/react/accordion";
 import { Flex } from "@chakra-ui/react/flex";
@@ -21,21 +24,34 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
       <Accordion.Root collapsible>
         {data?.map((section, index) => (
           <Accordion.Item key={index} value={String(section.id)}>
-            <Accordion.ItemTrigger>
+            <Accordion.ItemTrigger
+              w={"full"}
+              justifyContent={"space-between"}
+              bg={"green.500"}
+              alignItems={"center"}
+              px={"2"}
+              py={"3"}
+            >
               <Text>{section.name}</Text>
-              <Text>{getLessonsLength(section)}</Text>
-              <Accordion.ItemIndicator />
+              <Flex gap={"2"}>
+                <Text>
+                  {transformSecondsToMinutes(getLessonsLength(section))}
+                </Text>
+                <Accordion.ItemIndicator />
+              </Flex>
             </Accordion.ItemTrigger>
             <Accordion.ItemContent>
               <Accordion.ItemBody>
                 {section.lessons.map((lesson) => (
                   <Flex
                     w={"full"}
+                    px={"2"}
+                    py={"3"}
                     justifyContent={"space-between"}
                     key={lesson.id}
                   >
                     <Text>{lesson.name}</Text>
-                    <Text>{lesson.duration}</Text>
+                    <Text>{transformSecondsToMinutes(lesson.duration)}</Text>
                   </Flex>
                 ))}
               </Accordion.ItemBody>

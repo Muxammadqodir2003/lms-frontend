@@ -15,8 +15,17 @@ export const lessonApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    lessonCompleted: builder.mutation<void, string>({
+      query: (lessonId) => ({
+        url: `/lesson/completed/${lessonId}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
-export const { useGetLessonByIdQuery, useGetCurrentLessonBySlugQuery } =
-  lessonApi;
+export const {
+  useGetLessonByIdQuery,
+  useGetCurrentLessonBySlugQuery,
+  useLessonCompletedMutation,
+} = lessonApi;

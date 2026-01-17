@@ -11,7 +11,7 @@ import { toaster } from "@/components/ui/toaster";
 interface RightSideProps {
   image: string;
   lessons: number;
-  duration: number;
+  duration: string;
   level: string;
   language: string;
   price: number;
@@ -60,10 +60,10 @@ const RightSide = ({
       right={{ base: "0", md: "4", lg: "4", xl: "4" }}
       top={{ base: "0", md: "6", lg: "6", xl: "6" }}
     >
-      <Box position={"relative"} w={"96%"} h={"200px"}>
+      <Box position={"relative"} w={"100%"} h={"200px"}>
         <Image src={image} alt="Course Image" fill />
       </Box>
-      <Flex flexDirection={"column"} w={"full"} gap={"2"}>
+      <Flex flexDirection={"column"} w={"full"} gap={"2"} mt={"2"}>
         <Text>
           {price.toLocaleString("en-US", {
             style: "currency",

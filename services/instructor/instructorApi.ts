@@ -82,7 +82,7 @@ export const instructorApi = baseApi.injectEndpoints({
               if (section) orderIndex = orderIndex;
             });
             draft.sort((a, b) => a.orderIndex - b.orderIndex);
-          })
+          }),
         );
         try {
           await queryFulfilled;
@@ -141,7 +141,7 @@ export const instructorApi = baseApi.injectEndpoints({
       }),
       async onQueryStarted(
         { lessons, sectionId },
-        { dispatch, queryFulfilled }
+        { dispatch, queryFulfilled },
       ) {
         const patchResult = dispatch(
           instructorApi.util.updateQueryData(
@@ -153,8 +153,8 @@ export const instructorApi = baseApi.injectEndpoints({
                 if (lesson) orderIndex = orderIndex;
               });
               draft.sort((a, b) => a.orderIndex - b.orderIndex);
-            }
-          )
+            },
+          ),
         );
         try {
           await queryFulfilled;

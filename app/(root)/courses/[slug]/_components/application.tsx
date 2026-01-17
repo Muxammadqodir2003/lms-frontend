@@ -2,6 +2,8 @@ import { Flex } from "@chakra-ui/react/flex";
 import { Accordion } from "@chakra-ui/react/accordion";
 import { Span } from "@chakra-ui/react/span";
 import { ISection } from "@/types";
+import { Text } from "@chakra-ui/react/text";
+import { transformSecondsToMinutes } from "@/lib/helper/getCourseData";
 
 interface Props {
   sections: ISection[];
@@ -13,24 +15,25 @@ const Application = ({ sections }: Props) => {
       <Accordion.Root multiple>
         {sections.map((section, index) => (
           <Accordion.Item key={index} value={section.id.toString()}>
-            <Accordion.ItemTrigger>
+            <Accordion.ItemTrigger py={"4"} px={"2"} bg={"green.500"}>
               <Span flex="1">{section.name}</Span>
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
             <Accordion.ItemContent>
               <Accordion.ItemBody>
                 {section.lessons.map((lesson, index) => (
-                  <Accordion.Item key={index} value={lesson.id.toString()}>
-                    <Accordion.ItemTrigger>
-                      <Span flex="1">{lesson.name}</Span>
-                      <Accordion.ItemIndicator />
-                    </Accordion.ItemTrigger>
-                    <Accordion.ItemContent>
-                      <Accordion.ItemBody>
-                        {lesson.description}
-                      </Accordion.ItemBody>
-                    </Accordion.ItemContent>
-                  </Accordion.Item>
+                  <Flex
+                    w={"98%"}
+                    mx={"auto"}
+                    py={"3"}
+                    px={"2"}
+                    key={index}
+                    flexDirection={"row"}
+                    justifyContent={"space-between"}
+                  >
+                    <Text>{lesson.name}</Text>
+                    <Text>{transformSecondsToMinutes(lesson.duration)}</Text>
+                  </Flex>
                 ))}
               </Accordion.ItemBody>
             </Accordion.ItemContent>

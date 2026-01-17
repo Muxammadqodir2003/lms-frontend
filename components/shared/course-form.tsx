@@ -105,7 +105,7 @@ const CourseForm = () => {
           requirements: "",
           tags: "",
           description: "description",
-        }
+        },
   );
   const [image, setImage] = useState<File | null>(null);
   const router = useRouter();
@@ -118,7 +118,7 @@ const CourseForm = () => {
     const formData = new FormData();
 
     for (const key in courseData) {
-      if (key === "slug") continue;
+      // if (key === "slug") continue;
       if (courseData[key]) {
         formData.append(key, courseData[key] as string);
         console.log(formData);
@@ -230,7 +230,11 @@ const CourseForm = () => {
                 <Field.Root mt={"2"}>
                   <TagsInput.Root
                     variant={"outline"}
-                    value={courseData.whatsLearn.split(",")}
+                    value={
+                      courseData.whatsLearn
+                        ? courseData.whatsLearn.split(",")
+                        : []
+                    }
                     onValueChange={({ value }) =>
                       setCourseData({
                         ...courseData,
@@ -241,8 +245,28 @@ const CourseForm = () => {
                     <TagsInput.Label fontSize={"xl"}>
                       Kursingizda talabalar nima o'rganadilar
                     </TagsInput.Label>
-                    <TagsInput.Control>
-                      <TagsInput.Items pl={"1"} colorPalette={"purple"} />
+                    <TagsInput.Control bg={"transparent"}>
+                      <TagsInput.Context>
+                        {({ value }) =>
+                          value.map((tag, index) => (
+                            <TagsInput.Item
+                              key={index}
+                              index={index}
+                              value={tag}
+                            >
+                              <TagsInput.ItemPreview
+                                px={"2"}
+                                bg={"blue.800"}
+                                ml={1}
+                              >
+                                <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                                <TagsInput.ItemDeleteTrigger />
+                              </TagsInput.ItemPreview>
+                              <TagsInput.ItemInput />
+                            </TagsInput.Item>
+                          ))
+                        }
+                      </TagsInput.Context>
                       <TagsInput.Input w={"full"} pl={"2"} />
                     </TagsInput.Control>
                   </TagsInput.Root>
@@ -251,7 +275,11 @@ const CourseForm = () => {
                   <TagsInput.Root
                     variant={"outline"}
                     size={"sm"}
-                    value={courseData.requirements.split(",")}
+                    value={
+                      courseData.requirements
+                        ? courseData.requirements.split(",")
+                        : []
+                    }
                     onValueChange={({ value }) =>
                       setCourseData({
                         ...courseData,
@@ -284,14 +312,14 @@ const CourseForm = () => {
                           ))
                         }
                       </TagsInput.Context>
-                      <TagsInput.Input w={"full"} />
+                      <TagsInput.Input w={"full"} ml={"2"} />
                     </TagsInput.Control>
                   </TagsInput.Root>
                 </Field.Root>
                 <Field.Root mt={"2"}>
                   <TagsInput.Root
                     variant={"outline"}
-                    value={courseData.tags.split(",")}
+                    value={courseData.tags ? courseData.tags.split(",") : []}
                     onValueChange={({ value }) =>
                       setCourseData({ ...courseData, tags: value.join(",") })
                     }
@@ -299,8 +327,28 @@ const CourseForm = () => {
                     <TagsInput.Label fontSize={"xl"}>
                       Kurs teglar
                     </TagsInput.Label>
-                    <TagsInput.Control>
-                      <TagsInput.Items pl={"1"} />
+                    <TagsInput.Control bg={"transparent"}>
+                      <TagsInput.Context>
+                        {({ value }) =>
+                          value.map((tag, index) => (
+                            <TagsInput.Item
+                              key={index}
+                              index={index}
+                              value={tag}
+                            >
+                              <TagsInput.ItemPreview
+                                px={"2"}
+                                bg={"blue.800"}
+                                ml={1}
+                              >
+                                <TagsInput.ItemText>{tag}</TagsInput.ItemText>
+                                <TagsInput.ItemDeleteTrigger />
+                              </TagsInput.ItemPreview>
+                              <TagsInput.ItemInput />
+                            </TagsInput.Item>
+                          ))
+                        }
+                      </TagsInput.Context>
                       <TagsInput.Input w={"full"} pl={"2"} />
                     </TagsInput.Control>
                   </TagsInput.Root>
