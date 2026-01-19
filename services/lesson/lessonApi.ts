@@ -3,9 +3,9 @@ import { baseApi } from "../baseApi";
 
 export const lessonApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    getLessonById: builder.query<ILesson, string>({
-      query: (id) => ({
-        url: `/lesson/get-by-id/${id}`,
+    getLessonById: builder.query<ILesson, { lessonId: string; slug: string }>({
+      query: ({ lessonId, slug }) => ({
+        url: `/lesson/get-by-id/${lessonId}?slug=${slug}`,
         method: "GET",
       }),
     }),
@@ -15,12 +15,14 @@ export const lessonApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    lessonCompleted: builder.mutation<void, string>({
-      query: (lessonId) => ({
-        url: `/lesson/completed/${lessonId}`,
-        method: "POST",
-      }),
-    }),
+    lessonCompleted: builder.mutation<void, { lessonId: string; slug: string }>(
+      {
+        query: ({ lessonId, slug }) => ({
+          url: `/lesson/completed/${lessonId}?slug=${slug}`,
+          method: "POST",
+        }),
+      },
+    ),
   }),
 });
 

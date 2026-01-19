@@ -3,15 +3,52 @@ import { Flex } from "@chakra-ui/react/flex";
 import { Text } from "@chakra-ui/react/text";
 import AccardionContent from "./accardion-content";
 import { Box, Button } from "@chakra-ui/react";
-
+import { useCompleteLessonMutation } from "@/services/user/userApi";
+import { toaster } from "@/components/ui/toaster";
+import { useRouter } from "next/navigation";
+import { ILesson } from "@/types";
 interface LessonWatchProps {
   lessonId: string;
   slug: string;
 }
 
 const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
-  const { data, isLoading, isError } = useGetLessonByIdQuery(lessonId);
-  console.log(data);
+  const router = useRouter();
+
+  const { data, isLoading, isError } = useGetLessonByIdQuery({
+    lessonId,
+    slug,
+  });
+  const [completeLesson, { isLoading: isLessonLoading }] =
+    useCompleteLessonMutation();
+
+  const handleCompleteLesson = async () => {
+    try {
+      const data = await completeLesson({
+        lessonId: +lessonId,
+        slug,
+      }).unwrap();
+      console.log(data);
+      if (data === "Tabriklaymiz! Siz kursni tugatdingiz!") {
+        toaster.success({
+          title: "Muvaffaqiyatli",
+          description: "Tabriklaymiz! Siz kursni tugatdingiz!",
+        });
+        router.push(`/courses`);
+      } else {
+        router.push(`/dashboard/${slug}?lessonId=${data}`);
+        toaster.success({
+          title: "Muvaffaqiyatli",
+          description: "Darsni tugatish muvaffaqiyatli bajarildi",
+        });
+      }
+    } catch (error) {
+      toaster.error({
+        title: "Xatolik",
+        description: error?.data?.message,
+      });
+    }
+  };
 
   return (
     <Flex
@@ -39,8 +76,8 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         justifyContent={"space-between"}
       >
         <Text>{data?.name}</Text>
-        <Button px={"4"} onClick={() => {}}>
-          Completed
+        <Button px={"4"} onClick={() => handleCompleteLesson()}>
+          Darsni tugatish
         </Button>
       </Flex>
       <Text>{data?.description}</Text>

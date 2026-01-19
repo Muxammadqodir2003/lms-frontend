@@ -26,7 +26,7 @@ export const userApi = baseApi.injectEndpoints({
           url: `/course/get-course-by-slug/${slug}`,
           method: "GET",
         }),
-      }
+      },
     ),
     getCourseComments: builder.query<ICourse, string>({
       query: (slug) => ({
@@ -52,6 +52,18 @@ export const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
+    completeLesson: builder.mutation<
+      number | string,
+      {
+        lessonId: number;
+        slug: string;
+      }
+    >({
+      query: ({ lessonId, slug }) => ({
+        url: `/student/complete-lesson/${lessonId}?slug=${slug}`,
+        method: "POST",
+      }),
+    }),
   }),
 });
 
@@ -63,4 +75,5 @@ export const {
   useGetInstructorByIdQuery,
   useEnrollCourseMutation,
   useGetEnrolledCoursesQuery,
+  useCompleteLessonMutation,
 } = userApi;

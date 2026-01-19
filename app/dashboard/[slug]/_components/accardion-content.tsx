@@ -8,6 +8,8 @@ import { useGetSectionsByCourseSlugQuery } from "@/services/section/sectionApi";
 import { Accordion } from "@chakra-ui/react/accordion";
 import { Flex } from "@chakra-ui/react/flex";
 import { Text } from "@chakra-ui/react/text";
+import Link from "next/link";
+import { BiCheckCircle, BiPlayCircle } from "react-icons/bi";
 
 interface AccardionContentProps {
   slug: string;
@@ -15,6 +17,7 @@ interface AccardionContentProps {
 
 const AccardionContent = ({ slug }: AccardionContentProps) => {
   const { data, isLoading, isError } = useGetSectionsByCourseSlugQuery(slug);
+  console.log(data);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (isError) return <Text>Error</Text>;
@@ -22,7 +25,7 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
   return (
     <Flex w={"full"}>
       <Accordion.Root collapsible>
-        {data?.map((section, index) => (
+        {data?.sections.map((section, index) => (
           <Accordion.Item key={index} value={String(section.id)}>
             <Accordion.ItemTrigger
               w={"full"}
@@ -50,7 +53,18 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
                     justifyContent={"space-between"}
                     key={lesson.id}
                   >
-                    <Text>{lesson.name}</Text>
+                    <Flex alignItems={"center"} gap={"2"}>
+                      {data?.completedLessons.some(
+                        (id) => id === Number(lesson.id),
+                      ) ? (
+                        <BiCheckCircle color="blue" />
+                      ) : (
+                        <BiPlayCircle color="white" />
+                      )}
+                      <Link href={`/dashboard/${slug}?lessonId=${lesson.id}`}>
+                        <Text>{lesson.name}</Text>
+                      </Link>
+                    </Flex>
                     <Text>{transformSecondsToMinutes(lesson.duration)}</Text>
                   </Flex>
                 ))}
