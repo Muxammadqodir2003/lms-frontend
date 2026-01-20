@@ -21,16 +21,19 @@ const CourseCard = ({ enrollment }: Props) => {
       rounded={"md"}
       mt={"2"}
       bg={"gray.800"}
+      p={"2"}
     >
       {enrollment.course.image && (
-        <Image
-          src={enrollment.course.image.split("public")[1]}
-          alt={enrollment.course.title}
-          width={200}
-          height={200}
-        />
+        <Flex position={"relative"} w={"full"} h={"200px"}>
+          <Image
+            src={enrollment.course.image}
+            alt={enrollment.course.title}
+            fill
+            objectFit="cover"
+          />
+        </Flex>
       )}
-      <Flex w={"full"} flexDirection={"column"} p={"2"} gap={"2"}>
+      <Flex w={"full"} flexDirection={"column"} mt={"4"} gap={"2"}>
         <Progress.Root w={"full"} value={enrollment.progress}>
           <Progress.Track>
             <Progress.Range />

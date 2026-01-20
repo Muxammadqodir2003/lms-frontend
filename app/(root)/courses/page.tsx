@@ -11,14 +11,14 @@ const Page = () => {
       mt={"24"}
       p={"2"}
       display={"flex"}
-      flexDirection={"row"}
+      flexDirection={{ base: "column", md: "column", lg: "row", xl: "row" }}
       spaceX={"4"}
       bg={"bg.muted/70"}
     >
-      <Box w={"1/5"}>
+      <Box w={{ base: "full", md: "full", lg: "1/5", xl: "1/5" }}>
         <Filter />
       </Box>
-      <Box w={"4/5"}>
+      <Box>
         <CoursesView />
       </Box>
     </Container>

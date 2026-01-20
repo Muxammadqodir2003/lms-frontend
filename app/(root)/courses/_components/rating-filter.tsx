@@ -2,9 +2,10 @@
 
 import { filterByRating } from "@/store/filters/filters.slice";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
 import { RatingGroup } from "@chakra-ui/react/rating-group";
+import { Flex } from "@chakra-ui/react/flex";
+import { Text } from "@chakra-ui/react";
 
 const items = [
   { quantity: 4.5, value: "1" },
@@ -22,7 +23,7 @@ const RatingFilter = () => {
       value={coursesState.rating}
       onValueChange={(e) => dispatch(filterByRating(e.value))}
     >
-      <VStack gap="6">
+      <Flex flexDirection={"column"} gap="6">
         {items.map((item) => (
           <RadioGroup.Item key={item.value} value={String(item.quantity)}>
             <RadioGroup.ItemHiddenInput />
@@ -35,14 +36,17 @@ const RatingFilter = () => {
                 defaultValue={item.quantity}
                 size="sm"
                 colorPalette={"orange"}
+                display={"flex"}
+                flexDirection={"column"}
               >
                 <RatingGroup.HiddenInput />
                 <RatingGroup.Control />
+                <Text>{item.quantity} dan yuqori</Text>
               </RatingGroup.Root>
             </RadioGroup.ItemText>
           </RadioGroup.Item>
         ))}
-      </VStack>
+      </Flex>
     </RadioGroup.Root>
   );
 };

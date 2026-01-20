@@ -27,22 +27,32 @@ const CourseCard = ({ course }: CourseCardProps) => {
     <>
       <Box
         w={"full"}
-        h={"300px"}
+        h={{ base: "full", md: "full", lg: "300px", xl: "300px" }}
         p={"4"}
         display={"flex"}
-        flexDirection={"row"}
-        spaceX={"3"}
+        flexDirection={{ base: "column", md: "column", lg: "row", xl: "row" }}
+        spaceX={{ base: "0", md: "0", lg: "3", xl: "3" }}
       >
-        <Box h={"full"} w={"40%"} position={"relative"}>
-          {/* <Image
+        <Box
+          h={{ base: "200px", md: "350px", lg: "full", xl: "full" }}
+          w={{ base: "full", md: "full", lg: "40%", xl: "40%" }}
+          position={"relative"}
+        >
+          <Image
             src={course.image}
             alt={`course image ${course.title}`}
             fill
             objectFit="object-contain"
-          /> */}
+          />
         </Box>
 
-        <Box h={"full"} w={"60%"}>
+        <Box
+          h={"full"}
+          w={{ base: "full", md: "full", lg: "60%", xl: "60%" }}
+          display={"flex"}
+          flexDirection={"column"}
+          mx={"auto"}
+        >
           <HStack>
             <RatingGroup.Root
               readOnly
@@ -51,6 +61,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
               defaultValue={course.rating}
               size="sm"
               colorPalette={"orange"}
+              mt={"2"}
             >
               <RatingGroup.HiddenInput />
               <RatingGroup.Control />
@@ -64,7 +75,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
             </Heading>
             <Text color={"gray.400"}>{course.subTitle}</Text>
           </VStack>
-          <HStack mt={"2"}>
+          <HStack mt={"2"} flexWrap={"wrap"}>
             <Avatar.Root size={"xl"}>
               <Avatar.Fallback name="Segun Adebayo" />
               <Avatar.Image src="https://bit.ly/sage-adebayo" />

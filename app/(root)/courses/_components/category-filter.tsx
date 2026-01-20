@@ -1,9 +1,9 @@
 "use client";
 
-import { VStack } from "@chakra-ui/react/stack";
 import { RadioGroup } from "@chakra-ui/react/radio-group";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { filterByCategory } from "@/store/filters/filters.slice";
+import { Flex } from "@chakra-ui/react/flex";
 
 const items = [
   { label: "Web developer", value: "web" },
@@ -21,7 +21,7 @@ const CategoryFilter = () => {
       value={courseState.category}
       onValueChange={(e) => dispatch(filterByCategory(e.value))}
     >
-      <VStack gap="6">
+      <Flex flexDirection={"column"} gap="6">
         {items.map((item) => (
           <RadioGroup.Item key={item.value} value={item.value}>
             <RadioGroup.ItemHiddenInput />
@@ -29,7 +29,7 @@ const CategoryFilter = () => {
             <RadioGroup.ItemText>{item.label}</RadioGroup.ItemText>
           </RadioGroup.Item>
         ))}
-      </VStack>
+      </Flex>
     </RadioGroup.Root>
   );
 };

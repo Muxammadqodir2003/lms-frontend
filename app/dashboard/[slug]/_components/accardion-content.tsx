@@ -17,13 +17,12 @@ interface AccardionContentProps {
 
 const AccardionContent = ({ slug }: AccardionContentProps) => {
   const { data, isLoading, isError } = useGetSectionsByCourseSlugQuery(slug);
-  console.log(data);
 
   if (isLoading) return <Text>Loading...</Text>;
   if (isError) return <Text>Error</Text>;
 
   return (
-    <Flex w={"full"}>
+    <Flex w={"full"} mt={{ base: "2", md: "2", lg: "0", xl: "0" }}>
       <Accordion.Root collapsible>
         {data?.sections.map((section, index) => (
           <Accordion.Item key={index} value={String(section.id)}>

@@ -29,20 +29,20 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         slug,
       }).unwrap();
       console.log(data);
-      if (data === "Tabriklaymiz! Siz kursni tugatdingiz!") {
+      if (!data.finished) {
+        router.push(`/dashboard/${slug}?lessonId=${data.nextLessonId}`);
+        toaster.success({
+          title: "Muvaffaqiyatli",
+          description: "Darsni tugatish muvaffaqiyatli bajarildi",
+        });
+      } else {
         toaster.success({
           title: "Muvaffaqiyatli",
           description: "Tabriklaymiz! Siz kursni tugatdingiz!",
         });
         router.push(`/courses`);
-      } else {
-        router.push(`/dashboard/${slug}?lessonId=${data}`);
-        toaster.success({
-          title: "Muvaffaqiyatli",
-          description: "Darsni tugatish muvaffaqiyatli bajarildi",
-        });
       }
-    } catch (error) {
+    } catch (error: any) {
       toaster.error({
         title: "Xatolik",
         description: error?.data?.message,
@@ -76,7 +76,11 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         justifyContent={"space-between"}
       >
         <Text>{data?.name}</Text>
-        <Button px={"4"} onClick={() => handleCompleteLesson()}>
+        <Button
+          px={"4"}
+          onClick={() => handleCompleteLesson()}
+          disabled={isLessonLoading}
+        >
           Darsni tugatish
         </Button>
       </Flex>

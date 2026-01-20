@@ -48,12 +48,18 @@ export const userApi = baseApi.injectEndpoints({
     }),
     getEnrolledCourses: builder.query<IEnrollment[], void>({
       query: () => ({
-        url: `/student/enrolled-courses`,
+        url: `/student/paid-courses`,
+        method: "GET",
+      }),
+    }),
+    getUnpaidCourses: builder.query<IEnrollment[], void>({
+      query: () => ({
+        url: `/student/unpaid-courses`,
         method: "GET",
       }),
     }),
     completeLesson: builder.mutation<
-      number | string,
+      { nextLessonId: number; finished: boolean },
       {
         lessonId: number;
         slug: string;
@@ -75,5 +81,6 @@ export const {
   useGetInstructorByIdQuery,
   useEnrollCourseMutation,
   useGetEnrolledCoursesQuery,
+  useGetUnpaidCoursesQuery,
   useCompleteLessonMutation,
 } = userApi;

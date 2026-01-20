@@ -8,7 +8,7 @@ import { useAppSelector } from "@/store/hooks";
 const CoursesView = () => {
   const filters = useAppSelector((state) => state.filters);
   const clean = Object.fromEntries(
-    Object.entries(filters).filter(([_, value]) => value !== null)
+    Object.entries(filters).filter(([_, value]) => value !== null),
   );
   const { data, isLoading, error, isError } = useGetAllCoursesQuery(clean);
 
@@ -16,7 +16,7 @@ const CoursesView = () => {
   if (isError) return <Text>{error?.data?.message}</Text>;
 
   return (
-    <Box w={"full"}>
+    <Box w={{ base: "full", md: "full", lg: "4/5", xl: "4/5" }} mx={"auto"}>
       {data?.courses.length === 0 && (
         <Text textAlign="center">No courses found</Text>
       )}

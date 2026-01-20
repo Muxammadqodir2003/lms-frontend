@@ -9,15 +9,17 @@ export const getLessons = (course: ICourse) => {
 };
 
 export const getDuration = (course: ICourse) => {
+  console.log(course);
   let result = 0;
   course?.sections?.forEach((section) => {
     section.lessons.forEach((lesson) => {
       result += lesson.duration;
     });
   });
+  console.log(result);
   const hours = Math.floor(result / 3600);
   const minutes = Math.floor((result % 3600) / 60);
-  return `${hours}:${minutes}`;
+  return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
 };
 
 export const getLessonsLength = (section: ISection) => {
