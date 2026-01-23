@@ -37,7 +37,9 @@ export interface ICourse {
   rating: number;
   updatedAt: string;
   instructorId: string;
+  isPublished: boolean;
   sections: ISection[];
+  instructor: IInstructorProfile;
 }
 
 export interface ISection {
@@ -68,6 +70,7 @@ export interface IEnrollment {
   id: number;
   course: ICourse;
   progress: number;
+  currentLessonId: number;
 }
 
 export interface RegisterFormValues {

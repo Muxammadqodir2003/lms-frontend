@@ -16,6 +16,7 @@ import {
   FileUpload,
   Icon,
   Portal,
+  Text,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { LuUpload } from "react-icons/lu";
@@ -27,7 +28,7 @@ import {
 import { toaster } from "../ui/toaster";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
 import { useRouter } from "next/navigation";
-// import ReactQuil from "./react-quil";
+import TiptapEditor from "./react-quil";
 
 const languages = createListCollection({
   items: [
@@ -104,7 +105,7 @@ const CourseForm = () => {
           whatsLearn: "",
           requirements: "",
           tags: "",
-          description: "description",
+          description: "",
         },
   );
   const [image, setImage] = useState<File | null>(null);
@@ -121,7 +122,6 @@ const CourseForm = () => {
       // if (key === "slug") continue;
       if (courseData[key]) {
         formData.append(key, courseData[key] as string);
-        console.log(formData);
       }
     }
     if (!editedCourse) {
@@ -353,10 +353,38 @@ const CourseForm = () => {
                     </TagsInput.Control>
                   </TagsInput.Root>
                 </Field.Root>
-                {/* <Field.Root mt={"2"}>
-                <Field.Label fontSize={"xl"}>Kurs tavsifi</Field.Label>
-                 <ReactQuil value={description} setValue={setDescription} /> 
-              </Field.Root> */}
+                <Field.Root mt={"2"}>
+                  <Field.Label fontSize={"xl"}>Kurs tavsifi</Field.Label>
+                  <Box w={"full"} bg={"gray.950"}>
+                    <TiptapEditor
+                      value={courseData.description}
+                      onChange={(html) =>
+                        setCourseData({ ...courseData, description: html })
+                      }
+                    />
+                  </Box>
+                  {/* <Box
+                    mt={10}
+                    p={4}
+                    borderWidth="1px"
+                    borderRadius="md"
+                    bg="bg.subtle"
+                    maxWidth={"full"}
+                  >
+                    <Text fontWeight="bold" mb={2}>
+                      HTML Natija:
+                    </Text>
+                    <Box
+                      as="pre"
+                      p={2}
+                      bg="blackAlpha.100"
+                      overflowX="auto"
+                      fontSize="sm"
+                    >
+                      {courseData.description}
+                    </Box>
+                  </Box> */}
+                </Field.Root>
               </Flex>
               <Flex flexDirection={"column"} w={"30%"}>
                 <Field.Root>

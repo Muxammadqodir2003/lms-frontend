@@ -16,7 +16,7 @@ const CoursesView = () => {
   if (isError) return <Text>{error?.data?.message}</Text>;
 
   return (
-    <Box w={{ base: "full", md: "full", lg: "4/5", xl: "4/5" }} mx={"auto"}>
+    <Box w={"full"} mx={"auto"}>
       {data?.courses.length === 0 && (
         <Text textAlign="center">No courses found</Text>
       )}

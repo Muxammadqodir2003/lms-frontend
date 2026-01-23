@@ -6,6 +6,8 @@ import { Container } from "@chakra-ui/react/container";
 import { Flex } from "@chakra-ui/react/flex";
 import { Heading } from "@chakra-ui/react/heading";
 import { Center } from "@chakra-ui/react/center";
+import { Separator } from "@chakra-ui/react/separator";
+import Link from "next/link";
 
 const Navbar = () => {
   return (
@@ -24,15 +26,17 @@ const Navbar = () => {
             <Heading size={"4xl"}>Logo</Heading>
 
             <Center display={"flex"} flexDirection={"row"} spaceX={"4"}>
-              <Button cursor={"pointer"}>
-                <CgShoppingCart />
-              </Button>
+              <Link href={"/cart"}>
+                <Button cursor={"pointer"}>
+                  <CgShoppingCart />
+                </Button>
+              </Link>
               {/* <ThemeToggle /> */}
               <ProfileButton />
             </Center>
           </Flex>
         </Container>
-        {/* <Separator color="white" pos={"absolute"} bottom={0} /> */}
+        <Separator color="white" position={"absolute"} bottom={0} w={"full"} />
       </Container>
     </>
   );

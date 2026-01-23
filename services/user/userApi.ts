@@ -45,18 +45,35 @@ export const userApi = baseApi.injectEndpoints({
         url: `/student/enrollment/${courseId}`,
         method: "POST",
       }),
+      invalidatesTags: ["Enrollments"],
+    }),
+    deleteEnrollment: builder.mutation<void, number>({
+      query: (courseId) => ({
+        url: `/student/enrollment/${courseId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["Enrollments"],
     }),
     getEnrolledCourses: builder.query<IEnrollment[], void>({
       query: () => ({
         url: `/student/paid-courses`,
         method: "GET",
       }),
+      providesTags: ["Enrollments"],
     }),
     getUnpaidCourses: builder.query<IEnrollment[], void>({
       query: () => ({
         url: `/student/unpaid-courses`,
         method: "GET",
       }),
+      providesTags: ["Enrollments"],
+    }),
+    payCourses: builder.mutation<void, void>({
+      query: () => ({
+        url: `/student/pay-courses`,
+        method: "POST",
+      }),
+      invalidatesTags: ["Enrollments"],
     }),
     completeLesson: builder.mutation<
       { nextLessonId: number; finished: boolean },
@@ -83,4 +100,6 @@ export const {
   useGetEnrolledCoursesQuery,
   useGetUnpaidCoursesQuery,
   useCompleteLessonMutation,
+  usePayCoursesMutation,
+  useDeleteEnrollmentMutation,
 } = userApi;

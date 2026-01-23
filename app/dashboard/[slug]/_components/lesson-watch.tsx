@@ -7,6 +7,9 @@ import { useCompleteLessonMutation } from "@/services/user/userApi";
 import { toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import { ILesson } from "@/types";
+import parse from "html-react-parser";
+import DOMPurify from "dompurify";
+
 interface LessonWatchProps {
   lessonId: string;
   slug: string;
@@ -28,7 +31,6 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         lessonId: +lessonId,
         slug,
       }).unwrap();
-      console.log(data);
       if (!data.finished) {
         router.push(`/dashboard/${slug}?lessonId=${data.nextLessonId}`);
         toaster.success({
@@ -84,7 +86,30 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
           Darsni tugatish
         </Button>
       </Flex>
-      <Text>{data?.description}</Text>
+
+      {data?.description && (
+        <Box
+          w="full"
+          p={"2"}
+          mt={"4"}
+          bg={"gray.800"}
+          rounded={"md"}
+          className="ql-snow" // Quill'ning ba'zi struktura stillari uchun
+          css={{
+            ".ql-editor": {
+              padding: "0 !important", // Ko'rsatishda ortiqcha padding kerakmas
+            },
+            // Barcha ichki elementlarning inline ranglarini bekor qilish
+            "p, span, h1, h2, h3, li": {
+              backgroundColor: "transparent !important",
+              color: "white !important", // Yoki o'zingizga ma'qul rang
+              lineHeight: "1.7",
+            },
+          }}
+        >
+          <div className="ql-editor">{parse(data.description)}</div>
+        </Box>
+      )}
 
       <Box
         w={"full"}

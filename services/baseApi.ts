@@ -30,7 +30,7 @@ const baseQueryWithReauth: BaseQueryFn<
     const refreshResult = await baseQuery(
       { url: "/auth/refresh", method: "POST" },
       api,
-      extraOptions
+      extraOptions,
     );
 
     if (refreshResult.data) {
@@ -55,6 +55,7 @@ export const baseApi = createApi({
     "Course",
     "Lesson",
     "Instructors",
+    "Enrollments",
   ],
   endpoints: () => ({}),
 });

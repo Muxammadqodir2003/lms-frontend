@@ -5,8 +5,13 @@ import { Flex } from "@chakra-ui/react/flex";
 import Image from "next/image";
 import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
-import { useEnrollCourseMutation } from "@/services/user/userApi";
+import {
+  useEnrollCourseMutation,
+  useGetEnrolledCoursesQuery,
+} from "@/services/user/userApi";
 import { toaster } from "@/components/ui/toaster";
+import { Loader } from "@chakra-ui/react";
+import { useRouter } from "next/navigation";
 
 interface RightSideProps {
   image: string;
@@ -16,6 +21,7 @@ interface RightSideProps {
   language: string;
   price: number;
   courseId: string;
+  slug: string;
 }
 
 const RightSide = ({
@@ -26,8 +32,16 @@ const RightSide = ({
   language,
   price,
   courseId,
+  slug,
 }: RightSideProps) => {
+  const router = useRouter();
+
   const [enrollCourse, { isLoading }] = useEnrollCourseMutation();
+  const { data } = useGetEnrolledCoursesQuery();
+
+  const isEnrolled = data?.some(
+    (enrollment) => enrollment.course.id === +courseId,
+  );
 
   const handleEnrollCourse = async () => {
     try {
@@ -70,8 +84,15 @@ const RightSide = ({
             currency: "USD",
           })}
         </Text>
-        <Button disabled={isLoading} onClick={handleEnrollCourse}>
-          Enroll Now
+        <Button
+          disabled={isLoading}
+          onClick={
+            isEnrolled
+              ? () => router.push(`/dashboard/${slug}`)
+              : handleEnrollCourse
+          }
+        >
+          {isLoading ? <Loader /> : isEnrolled ? "Go to course" : "Enroll Now"}
         </Button>
         <Flex
           flexDirection={"row"}

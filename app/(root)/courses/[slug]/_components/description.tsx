@@ -3,6 +3,8 @@ import { Flex } from "@chakra-ui/react/flex";
 import { BsCircleFill } from "react-icons/bs";
 import { BiCheck } from "react-icons/bi";
 import { Grid, GridItem } from "@chakra-ui/react/grid";
+import { Box } from "@chakra-ui/react";
+import parse from "html-react-parser";
 
 interface Props {
   description: string;
@@ -14,9 +16,25 @@ const Description = ({ description, whatsLearn, requirements }: Props) => {
   return (
     <Flex flexDirection={"column"} gap={2}>
       <Text fontSize={"lg"} fontWeight={"bold"} mt={"3"}>
-        Description
+        {description && (
+          <Box
+            w="full"
+            className="ql-snow"
+            css={{
+              ".ql-editor": {
+                padding: "0 !important",
+              },
+              "p, span, h1, h2, h3, li": {
+                backgroundColor: "transparent !important",
+                color: "white !important",
+                lineHeight: "1.7",
+              },
+            }}
+          >
+            <div className="ql-editor">{parse(description)}</div>
+          </Box>
+        )}
       </Text>
-      <Text>{description}</Text>
       <Text fontSize={"lg"} fontWeight={"bold"} mt={"3"}>
         What you will learn
       </Text>

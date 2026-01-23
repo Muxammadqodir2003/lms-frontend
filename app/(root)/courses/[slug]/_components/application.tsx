@@ -17,6 +17,14 @@ const Application = ({ sections }: Props) => {
           <Accordion.Item key={index} value={section.id.toString()}>
             <Accordion.ItemTrigger py={"4"} px={"2"} bg={"green.500"}>
               <Span flex="1">{section.name}</Span>
+              <Text>
+                {transformSecondsToMinutes(
+                  section.lessons.reduce(
+                    (total, lesson) => total + lesson.duration,
+                    0,
+                  ),
+                )}
+              </Text>
               <Accordion.ItemIndicator />
             </Accordion.ItemTrigger>
             <Accordion.ItemContent>

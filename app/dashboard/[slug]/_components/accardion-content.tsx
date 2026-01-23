@@ -9,6 +9,7 @@ import { Accordion } from "@chakra-ui/react/accordion";
 import { Flex } from "@chakra-ui/react/flex";
 import { Text } from "@chakra-ui/react/text";
 import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { BiCheckCircle, BiPlayCircle } from "react-icons/bi";
 
 interface AccardionContentProps {
@@ -16,6 +17,9 @@ interface AccardionContentProps {
 }
 
 const AccardionContent = ({ slug }: AccardionContentProps) => {
+  const searchParams = useSearchParams();
+  const lessonId = searchParams.get("lessonId");
+
   const { data, isLoading, isError } = useGetSectionsByCourseSlugQuery(slug);
 
   if (isLoading) return <Text>Loading...</Text>;
@@ -51,6 +55,11 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
                     py={"3"}
                     justifyContent={"space-between"}
                     key={lesson.id}
+                    bg={
+                      lessonId === String(lesson.id)
+                        ? "gray.800"
+                        : "transparent"
+                    }
                   >
                     <Flex alignItems={"center"} gap={"2"}>
                       {data?.completedLessons.some(

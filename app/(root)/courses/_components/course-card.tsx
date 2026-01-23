@@ -10,18 +10,42 @@ import { Avatar } from "@chakra-ui/react/avatar";
 import { CiClock1 } from "react-icons/ci";
 import { SiBetterstack } from "react-icons/si";
 import { MdPlayLesson } from "react-icons/md";
-import { Button, Flex, Separator } from "@chakra-ui/react";
+import { Button, Flex, Loader, Separator } from "@chakra-ui/react";
 import { BiCard } from "react-icons/bi";
 import { ICourse } from "@/types";
 import { useRouter } from "next/navigation";
 import { getDuration, getLessons } from "@/lib/helper/getCourseData";
+import {
+  useEnrollCourseMutation,
+  useGetEnrolledCoursesQuery,
+} from "@/services/user/userApi";
+import { toaster } from "@/components/ui/toaster";
 
 interface CourseCardProps {
   course: ICourse;
 }
 
 const CourseCard = ({ course }: CourseCardProps) => {
+  const [enrollCourse, { isLoading }] = useEnrollCourseMutation();
+  const { data } = useGetEnrolledCoursesQuery();
+
+  const handleEnrollCourse = async () => {
+    try {
+      await enrollCourse(course.id).unwrap();
+      toaster.success({
+        title: "Success",
+        description: "Course enrolled successfully",
+      });
+    } catch (error) {
+      // @ts-ignore
+      toaster.error({ title: "Error", description: error?.data?.message });
+    }
+  };
   const router = useRouter();
+
+  const isEnrolled = data?.some(
+    (enrollment) => enrollment.courseId === course.id,
+  );
 
   return (
     <>
@@ -105,12 +129,30 @@ const CourseCard = ({ course }: CourseCardProps) => {
             </Heading>
 
             <HStack>
-              <Button p={"4"} color={"#fff"} bg={"green.800"}>
-                Add to cart <BiCard />
+              <Button
+                onClick={
+                  isEnrolled
+                    ? () => router.push(`/courses/${course.slug}`)
+                    : handleEnrollCourse
+                }
+                disabled={isLoading}
+                p={"4"}
+                color={"#fff"}
+                bg={"green.800"}
+              >
+                {isLoading ? (
+                  <Loader />
+                ) : isEnrolled ? (
+                  "Go to course"
+                ) : (
+                  "Add to cart"
+                )}{" "}
+                <BiCard />
               </Button>
               <Button
                 p={"4"}
                 onClick={() => router.push(`/courses/${course.slug}`)}
+                disabled={isLoading}
               >
                 Detail
               </Button>

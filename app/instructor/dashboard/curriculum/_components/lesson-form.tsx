@@ -12,6 +12,8 @@ import { FileUpload } from "@chakra-ui/react/file-upload";
 import { InputGroup } from "@chakra-ui/react/input-group";
 import { LuFileUp } from "react-icons/lu";
 import { useState } from "react";
+import QuillEditor from "@/components/shared/react-quil";
+import { Box } from "@chakra-ui/react";
 
 const LessonForm = ({
   sectionId,
@@ -21,6 +23,7 @@ const LessonForm = ({
   onClose: () => void;
 }) => {
   const [video, setVideo] = useState<File | null>(null);
+  const [description, setDescription] = useState("");
   const [createLesson, { isLoading }] = useCreateLessonMutation();
   const [updateLesson, { isLoading: isUpdating }] = useUpdateLessonMutation();
   const { editedLesson, setEditedLesson } = useEditedCourse();
@@ -33,6 +36,7 @@ const LessonForm = ({
     const formData = new FormData();
     formData.append("name", values.name);
     if (video) formData.append("video", video);
+    formData.append("description", description);
 
     if (editedLesson?.id) {
       try {
@@ -117,9 +121,19 @@ const LessonForm = ({
               </InputGroup>
             </FileUpload.Root>
 
+            <Field.Root mt={"2"}>
+              <Field.Label fontSize={"xl"}>Darslik tavsifi</Field.Label>
+              <Box w={"full"} bg={"gray.950"}>
+                <QuillEditor
+                  value={description}
+                  onChange={(html) => setDescription(html)}
+                />
+              </Box>
+            </Field.Root>
+
             <Button
               w={"full"}
-              mt={"2"}
+              mt={"10"}
               type="submit"
               disabled={isLoading || isUpdating}
             >

@@ -76,6 +76,7 @@ const CourseView = ({ slug }: Props) => {
         level={data?.level!}
         language={data?.language!}
         price={data?.price!}
+        slug={slug}
       />
     </Flex>
   );
