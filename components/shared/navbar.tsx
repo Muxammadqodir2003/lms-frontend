@@ -8,6 +8,7 @@ import { Heading } from "@chakra-ui/react/heading";
 import { Center } from "@chakra-ui/react/center";
 import { Separator } from "@chakra-ui/react/separator";
 import Link from "next/link";
+import SidebarOpener from "./sidebar-opener";
 
 const Navbar = () => {
   return (
@@ -23,7 +24,14 @@ const Navbar = () => {
       >
         <Container w={"85%"} mx={"auto"}>
           <Flex alignItems={"center"} justifyContent={"space-between"}>
-            <Heading size={"4xl"}>Logo</Heading>
+            <Flex alignItems={"center"} gap={"2"}>
+              <Flex
+                display={{ base: "flex", md: "flex", lg: "none", xl: "none" }}
+              >
+                <SidebarOpener />
+              </Flex>
+              <Heading size={"4xl"}>Logo</Heading>
+            </Flex>
 
             <Center display={"flex"} flexDirection={"row"} spaceX={"4"}>
               <Link href={"/cart"}>

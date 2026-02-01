@@ -6,6 +6,7 @@ import { Box } from "@chakra-ui/react/box";
 import { Container } from "@chakra-ui/react/container";
 import { Toaster } from "@/components/ui/toaster";
 import ChakraProvider from "@/components/providers/chakra-provider";
+import MobileSidebar from "@/components/shared/mobile-sidebar";
 
 const Layout = ({ children }: ChildProps) => {
   return (
@@ -21,6 +22,7 @@ const Layout = ({ children }: ChildProps) => {
                 colSpan={{ base: 0, md: 0, lg: 1, xl: 1 }}
               >
                 <RootSidebar />
+                <MobileSidebar />
               </GridItem>
               <GridItem colSpan={{ base: 5, md: 5, lg: 4, xl: 4 }}>
                 {children}

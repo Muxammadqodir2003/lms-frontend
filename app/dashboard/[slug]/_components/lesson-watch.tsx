@@ -99,6 +99,15 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
             ".ql-editor": {
               padding: "0 !important", // Ko'rsatishda ortiqcha padding kerakmas
             },
+            a: {
+              color: "#63B3ED !important", // blue.300 rangi (dark fonda yaxshi ko'rinadi)
+              textDecoration: "underline !important", // Tagiga chiziq chizish
+              cursor: "pointer !important",
+              transition: "color 0.2s ease",
+              _hover: {
+                color: "blue.400 !important", // Kursorni olib borganda rang o'zgarishi
+              },
+            },
             // Barcha ichki elementlarning inline ranglarini bekor qilish
             "p, span, h1, h2, h3, li": {
               backgroundColor: "transparent !important",

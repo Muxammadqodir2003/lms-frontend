@@ -34,8 +34,8 @@ export const instructorApi = baseApi.injectEndpoints({
       providesTags: ["Courses", "Course"],
     }),
     deleteCourse: builder.mutation({
-      query: (id: string) => ({
-        url: `/course/delete/${id}`,
+      query: (slug: string) => ({
+        url: `/course/delete/${slug}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Courses"],

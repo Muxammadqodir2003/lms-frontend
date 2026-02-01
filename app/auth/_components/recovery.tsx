@@ -44,7 +44,7 @@ const Recovery = () => {
       <Formik
         initialValues={{ email: "" }}
         validationSchema={emailSchema}
-        onSubmit={(values) => console.log(values)}
+        onSubmit={(values) => onSubmit(values)}
       >
         {(formik) => (
           <Form>

@@ -11,7 +11,7 @@ import { logout } from "@/store/user/user.slice";
 
 const ProfileButton = () => {
   const router = useRouter();
-  const user = useAppSelector((state) => state.user);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useDispatch();
 
   return (
@@ -29,7 +29,7 @@ const ProfileButton = () => {
           <Popover.Content>
             <Popover.Body>
               <Center py={"4"} display={"flex"} flexDirection={"column"}>
-                {user.user?.role === "INSTRUCTOR" && (
+                {user?.role === "INSTRUCTOR" && (
                   <Text
                     fontSize={"lg"}
                     p={"3"}
@@ -40,6 +40,19 @@ const ProfileButton = () => {
                     onClick={() => router.push("/instructor/dashboard")}
                   >
                     O'qituvchi admin
+                  </Text>
+                )}
+                {user?.role === "ADMIN" && (
+                  <Text
+                    fontSize={"lg"}
+                    p={"3"}
+                    _hover={{ bg: "gray.800" }}
+                    w={"full"}
+                    mb={"2"}
+                    cursor={"pointer"}
+                    onClick={() => router.push("/admin/dashboard")}
+                  >
+                    Admin Dashboard
                   </Text>
                 )}
                 <Text

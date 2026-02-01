@@ -73,6 +73,15 @@ export interface IEnrollment {
   currentLessonId: number;
 }
 
+export interface ILog {
+  id: number;
+  email: string;
+  ipAddress: string;
+  userAgent: string;
+  reason: string;
+  createdAt: string;
+}
+
 export interface RegisterFormValues {
   email: string;
   password: string;

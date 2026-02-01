@@ -1,4 +1,4 @@
-import { IUser } from "@/types";
+import { IUser, ILog } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const adminApi = baseApi.injectEndpoints({
@@ -24,6 +24,13 @@ export const adminApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Instructors"],
     }),
+    getLogs: builder.query<ILog[], number>({
+      query: (page: number) => ({
+        url: `/admin/logs?page=${page}`,
+        method: "GET",
+      }),
+      providesTags: ["Logs"],
+    }),
   }),
 });
 
@@ -31,4 +38,5 @@ export const {
   useGetAllInstructorQuery,
   useApproveInstructorMutation,
   useDeactivateInstructorMutation,
+  useGetLogsQuery,
 } = adminApi;

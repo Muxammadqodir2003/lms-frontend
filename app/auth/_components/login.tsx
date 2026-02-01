@@ -10,6 +10,7 @@ import { LoginFormValues } from "@/types";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { toaster } from "@/components/ui/toaster";
 import { useAppDispatch } from "@/store/hooks";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const Login = () => {
   const router = useRouter();
@@ -24,19 +25,23 @@ const Login = () => {
 
   async function onSubmit(
     values: LoginFormValues,
-    actions: FormikHelpers<LoginFormValues>
+    actions: FormikHelpers<LoginFormValues>,
   ) {
     try {
       toaster.dismiss();
       const data = await login(values).unwrap();
       dispatch(setCredentials(data));
+      toaster.success({
+        title: "Muvaffaqiyatli",
+        description: "Sizning hisobingizga kirdingiz",
+      });
       actions.resetForm();
       router.push("/");
     } catch (error) {
       toaster.error({
         title: "Xatolik",
         // @ts-ignore
-        description: error.data.message,
+        description: error?.data?.message,
       });
     }
   }
@@ -72,7 +77,7 @@ const Login = () => {
             </Field.Root>
             <Field.Root mt={"3"}>
               <Field.Label fontSize={"xl"}>Parol</Field.Label>
-              <Input
+              <PasswordInput
                 pl={"2"}
                 bg={"gray.900"}
                 name="password"

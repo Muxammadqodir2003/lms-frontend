@@ -581,7 +581,7 @@ const CourseForm = () => {
                         <Image
                           src={
                             editedCourse
-                              ? `http://localhost:4000/uploads/images/${editedCourse.image}`
+                              ? editedCourse?.image
                               : URL.createObjectURL(image)
                           }
                           alt="Course Image"

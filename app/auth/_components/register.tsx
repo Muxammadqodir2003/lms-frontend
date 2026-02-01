@@ -14,6 +14,7 @@ import { Heading } from "@chakra-ui/react/heading";
 import { Text } from "@chakra-ui/react/text";
 import { Input } from "@chakra-ui/react/input";
 import { ErrorMessage, Form, Formik } from "formik";
+import { PasswordInput } from "@/components/ui/password-input";
 
 const Register = () => {
   const { setData } = useData();
@@ -27,9 +28,9 @@ const Register = () => {
   };
 
   async function onSubmit(values: RegisterFormValues) {
-    console.log(values);
     try {
       const res = await register({ email: values.email }).unwrap();
+      console.log(res);
       const data = { email: values.email, password: values.password };
 
       setData(data);
@@ -78,11 +79,10 @@ const Register = () => {
             <HStack>
               <Field.Root mt={"3"}>
                 <Field.Label fontSize={"xl"}>Parol</Field.Label>
-                <Input
+                <PasswordInput
                   pl={"2"}
                   bg={"gray.950"}
                   name="password"
-                  type="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.password}
@@ -93,11 +93,10 @@ const Register = () => {
               </Field.Root>
               <Field.Root mt={"3"}>
                 <Field.Label fontSize={"xl"}>Parolni tasdiqlash</Field.Label>
-                <Input
+                <PasswordInput
                   pl={"2"}
                   bg={"gray.950"}
                   name="confirmPassword"
-                  type="password"
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                   value={formik.values.confirmPassword}

@@ -33,7 +33,7 @@ const CourseCard = ({ course }: CourseCardProps) => {
 
   const handleDeleteCourse = async () => {
     try {
-      await deleteCourse(`${course.id}`).unwrap();
+      await deleteCourse(`${course.slug}`).unwrap();
     } catch (error) {
       console.log(error);
     }
