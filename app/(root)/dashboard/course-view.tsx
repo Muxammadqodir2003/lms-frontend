@@ -9,7 +9,6 @@ import { Text } from "@chakra-ui/react/text";
 
 const CourseView = () => {
   const { data, isLoading, isError } = useGetEnrolledCoursesQuery();
-  console.log(data);
 
   if (isLoading) return <Loader />;
   if (isError) return <div>Error</div>;

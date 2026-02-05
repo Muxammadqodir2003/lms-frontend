@@ -21,7 +21,6 @@ interface Props {
 
 const CourseView = ({ slug }: Props) => {
   const { data, isLoading, isError } = useGetCourseBySlugQuery(slug);
-  console.log(data);
 
   if (isLoading) return <Loader />;
   if (isError) return <div>Error</div>;

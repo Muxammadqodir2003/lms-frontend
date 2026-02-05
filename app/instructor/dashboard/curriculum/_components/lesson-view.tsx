@@ -18,7 +18,7 @@ import {
 import {
   useGetLessonsQuery,
   useReorderLessonMutation,
-} from "@/services/instructor/instructorApi";
+} from "@/services/lesson/lessonApi";
 import { Flex } from "@chakra-ui/react/flex";
 import { Loader } from "@chakra-ui/react/loader";
 import { toaster } from "@/components/ui/toaster";
@@ -36,7 +36,7 @@ const LessonView = ({ sectionId }: { sectionId: number }) => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   if (isLoading) return <Loader />;

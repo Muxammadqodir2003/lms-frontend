@@ -9,7 +9,7 @@ import { FaEdit } from "react-icons/fa";
 import { Text } from "@chakra-ui/react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
-import { useDeleteLessonMutation } from "@/services/instructor/instructorApi";
+import { useDeleteLessonMutation } from "@/services/lesson/lessonApi";
 
 interface LessonItemProps {
   lesson: ILesson;

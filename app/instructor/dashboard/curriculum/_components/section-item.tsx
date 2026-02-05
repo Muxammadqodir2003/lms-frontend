@@ -10,10 +10,10 @@ import { MdEdit } from "react-icons/md";
 import { ISection } from "@/types";
 import { useSectionModalStore } from "@/hooks/useSectionModal";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
-import { useDeleteSectionMutation } from "@/services/instructor/instructorApi";
 import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import LessonView from "./lesson-view";
+import { useDeleteSectionMutation } from "@/services/section/sectionApi";
 
 interface SectionItemProps {
   section: ISection;

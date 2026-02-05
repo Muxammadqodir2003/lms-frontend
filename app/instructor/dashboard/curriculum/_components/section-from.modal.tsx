@@ -9,10 +9,12 @@ import { Formik } from "formik";
 import { sectionSchema } from "@/lib/validation";
 import { Field } from "@chakra-ui/react/field";
 import { Input } from "@chakra-ui/react/input";
-import { useCreateSectionMutation } from "@/services/instructor/instructorApi";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
-import { useUpdateSectionMutation } from "@/services/instructor/instructorApi";
 import { toaster } from "@/components/ui/toaster";
+import {
+  useCreateSectionMutation,
+  useUpdateSectionMutation,
+} from "@/services/section/sectionApi";
 
 const SectionFromModal = ({ slug }: { slug: string }) => {
   const { isOpen, setIsOpen } = useSectionModalStore();

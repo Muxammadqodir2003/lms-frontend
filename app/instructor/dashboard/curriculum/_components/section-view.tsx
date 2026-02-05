@@ -17,12 +17,12 @@ import {
 } from "@dnd-kit/sortable";
 import { Accordion } from "@chakra-ui/react/accordion";
 import SectionItem from "./section-item";
+import { Loader } from "@chakra-ui/react";
+import { toaster } from "@/components/ui/toaster";
 import {
   useGetSectionsQuery,
   useReorderSectionMutation,
-} from "@/services/instructor/instructorApi";
-import { Loader } from "@chakra-ui/react";
-import { toaster } from "@/components/ui/toaster";
+} from "@/services/section/sectionApi";
 
 const SectionView = ({ slug }: { slug: string }) => {
   const { data, isLoading, error } = useGetSectionsQuery(slug);
@@ -32,7 +32,7 @@ const SectionView = ({ slug }: { slug: string }) => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   if (isLoading) return <Loader />;

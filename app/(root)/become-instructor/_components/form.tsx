@@ -4,8 +4,6 @@ import { becomeInstructorSchema } from "@/lib/validation";
 import { Input } from "@chakra-ui/react/input";
 import { Field } from "@chakra-ui/react/field";
 import { Formik } from "formik";
-import { Select } from "@chakra-ui/react/select";
-import { Portal } from "@chakra-ui/react/portal";
 import { createListCollection } from "@chakra-ui/react/collection";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { BiCheckCircle } from "react-icons/bi";

@@ -4,8 +4,6 @@ import { Field } from "@chakra-ui/react/field";
 import { Flex } from "@chakra-ui/react/flex";
 import { Formik } from "formik";
 import { Button, CloseButton } from "@chakra-ui/react/button";
-import { useCreateLessonMutation } from "@/services/instructor/instructorApi";
-import { useUpdateLessonMutation } from "@/services/instructor/instructorApi";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
 import { toaster } from "@/components/ui/toaster";
 import { FileUpload } from "@chakra-ui/react/file-upload";
@@ -14,6 +12,10 @@ import { LuFileUp } from "react-icons/lu";
 import { useState } from "react";
 import QuillEditor from "@/components/shared/react-quil";
 import { Box } from "@chakra-ui/react";
+import {
+  useCreateLessonMutation,
+  useUpdateLessonMutation,
+} from "@/services/lesson/lessonApi";
 
 const LessonForm = ({
   sectionId,

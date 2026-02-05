@@ -2,13 +2,11 @@ import { useGetLessonByIdQuery } from "@/services/lesson/lessonApi";
 import { Flex } from "@chakra-ui/react/flex";
 import { Text } from "@chakra-ui/react/text";
 import AccardionContent from "./accardion-content";
-import { Box, Button } from "@chakra-ui/react";
+import { Box, Button, Loader } from "@chakra-ui/react";
 import { useCompleteLessonMutation } from "@/services/user/userApi";
 import { toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
-import { ILesson } from "@/types";
 import parse from "html-react-parser";
-import DOMPurify from "dompurify";
 
 interface LessonWatchProps {
   lessonId: string;
@@ -22,6 +20,7 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
     lessonId,
     slug,
   });
+
   const [completeLesson, { isLoading: isLessonLoading }] =
     useCompleteLessonMutation();
 
@@ -51,6 +50,9 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
       });
     }
   };
+
+  if (isLoading) return <Loader />;
+  if (isError) return <div>Error</div>;
 
   return (
     <Flex
