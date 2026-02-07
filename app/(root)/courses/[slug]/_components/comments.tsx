@@ -1,6 +1,6 @@
 "use client";
 
-import { useGetCourseCommentsQuery } from "@/services/user/userApi";
+import { useGetRatingsQuery } from "@/services/rating/ratingApi";
 import { Loader } from "@chakra-ui/react/loader";
 
 interface Props {
@@ -8,12 +8,13 @@ interface Props {
 }
 
 const Comments = ({ slug }: Props) => {
-  const { data, isLoading, isError } = useGetCourseCommentsQuery(slug);
+  const { data, isLoading, isError } = useGetRatingsQuery(slug);
+  console.log(data);
 
   if (isLoading) return <Loader />;
   if (isError) return <div>Error</div>;
 
-  return <div>{slug}</div>;
+  return <div>{data?.data}</div>;
 };
 
 export default Comments;

@@ -51,7 +51,17 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
     }
   };
 
-  if (isLoading) return <Loader />;
+  if (isLoading)
+    return (
+      <Flex
+        justifyContent={"center"}
+        alignItems={"center"}
+        w={"full"}
+        h={"full"}
+      >
+        <Loader />
+      </Flex>
+    );
   if (isError) return <div>Error</div>;
 
   return (
@@ -89,7 +99,7 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         </Button>
       </Flex>
 
-      {data?.description && (
+      {data?.description && data.description.length > 0 && (
         <Box
           w="full"
           p={"2"}

@@ -34,7 +34,14 @@ export const userApi = baseApi.injectEndpoints({
         method: "GET",
       }),
     }),
-    getInstructorById: builder.query<IInstructorProfile, string>({
+    getInstructorById: builder.query<
+      {
+        instructor: IInstructorProfile;
+        coursesCount: number;
+        studentCount: number;
+      },
+      string
+    >({
       query: (id) => ({
         url: `/instructor/get-by-id/${id}`,
         method: "GET",

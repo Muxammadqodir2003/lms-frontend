@@ -27,33 +27,35 @@ const Mentor = ({ instructorId }: Props) => {
           <Avatar.Root size={"full"}>
             <Avatar.Fallback
               fontSize={"3xl"}
-              name={data?.firstName + " " + data?.lastName}
+              name={
+                data?.instructor.firstName + " " + data?.instructor.lastName
+              }
             />
           </Avatar.Root>
         </Flex>
         <Flex flexDirection={"column"} justifyContent={"center"}>
           <Heading size={"lg"}>
-            {data?.firstName + " " + data?.lastName}
+            {data?.instructor.firstName + " " + data?.instructor.lastName}
           </Heading>
-          <Text>{data?.job}</Text>
+          <Text>{data?.instructor.job}</Text>
           <Flex flexDirection={"row"} gap={"2"}>
             <Flex flexDirection={"row"} alignItems={"center"} gap={"1"}>
               <BsFillStarFill color="blue" />
-              <Text>4.8 Reyting</Text>
+              <Text>{data?.instructor.rating}</Text>
             </Flex>
             <Flex flexDirection={"row"} alignItems={"center"} gap={"1"}>
               <PiStudentFill color="blue" />
-              <Text>+5000 O'quvchilar</Text>
+              <Text>+{data?.studentCount} O'quvchilar</Text>
             </Flex>
             <Flex flexDirection={"row"} alignItems={"center"} gap={"1"}>
               <BiPlayCircle color="blue" />
-              <Text>10 kurslar</Text>
+              <Text>{data?.coursesCount} kurslar</Text>
             </Flex>
           </Flex>
         </Flex>
       </Flex>
-      <Text mt={"3"}>{data?.firstName}</Text>
-      <Text mt={"3"}>{data?.lastName}</Text>
+      <Text mt={"3"}>{data?.instructor.firstName}</Text>
+      <Text mt={"3"}>{data?.instructor.lastName}</Text>
     </Flex>
   );
 };

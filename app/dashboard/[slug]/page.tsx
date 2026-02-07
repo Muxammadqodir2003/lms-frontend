@@ -5,6 +5,7 @@ import Sidebar from "./_components/sidebar";
 import State from "./_components/state";
 import ChakraProvider from "@/components/providers/chakra-provider";
 import Navbar from "@/components/shared/navbar";
+import RatingModal from "@/components/shared/rating-modal";
 
 const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
   const { slug } = await params;
@@ -23,6 +24,7 @@ const Page = async ({ params }: { params: Promise<{ slug: string }> }) => {
             </GridItem>
             <GridItem colSpan={{ base: 7, md: 7, lg: 5, xl: 5 }} mt={"7.5vh"}>
               <State slug={slug} />
+              <RatingModal slug={slug} />
             </GridItem>
           </Grid>
         </Container>

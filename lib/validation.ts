@@ -73,3 +73,9 @@ export const lessonSchema = Yup.object().shape({
     .min(3, "Nomi kamida 3 ta belgidan iborat bo'lishi kerak")
     .required("Nomi bo'lishi shart"),
 });
+
+export const ratingSchema = Yup.object().shape({
+  comment: Yup.string()
+    .min(3, "Bu qism kamida 3 ta belgidan iborat bo'lishi kerak")
+    .required("Bu qism to'ldirilishi shart"),
+});

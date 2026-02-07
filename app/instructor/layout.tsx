@@ -18,42 +18,22 @@ const InstructorLayout = ({ children }: ChildProps) => {
         <Box w={"full"} h={"full"}>
           <Container w={"full"} mx={"auto"} p={"2rem"}>
             <Grid gridTemplateColumns={"repeat(5, 1fr)"} mx={"auto"}>
-              {window.innerWidth < 768 ? (
-                <Flex
-                  justifyContent={"center"}
-                  alignItems={"center"}
-                  flexDir={"column"}
-                  h={"full"}
+              <>
+                <GridItem
                   display={{
-                    base: "block",
-                    md: "block",
-                    lg: "none",
-                    xl: "none",
+                    base: "none",
+                    md: "none",
+                    lg: "block",
+                    xl: "block",
                   }}
+                  colSpan={{ base: 0, md: 0, lg: 1, xl: 1 }}
                 >
-                  <Heading>
-                    You cannot use this layout on mobile devices.
-                  </Heading>
-                  <Text>Use a desktop or laptop to access this layout.</Text>
-                </Flex>
-              ) : (
-                <>
-                  <GridItem
-                    display={{
-                      base: "none",
-                      md: "none",
-                      lg: "block",
-                      xl: "block",
-                    }}
-                    colSpan={{ base: 0, md: 0, lg: 1, xl: 1 }}
-                  >
-                    <InstructorSidebar />
-                  </GridItem>
-                  <GridItem colSpan={{ base: 5, md: 5, lg: 4, xl: 4 }}>
-                    {children}
-                  </GridItem>
-                </>
-              )}
+                  <InstructorSidebar />
+                </GridItem>
+                <GridItem colSpan={{ base: 5, md: 5, lg: 4, xl: 4 }}>
+                  {children}
+                </GridItem>
+              </>
             </Grid>
           </Container>
         </Box>

@@ -57,6 +57,7 @@ export const baseApi = createApi({
     "Instructors",
     "Enrollments",
     "Logs",
+    "Comments",
   ],
   endpoints: () => ({}),
 });

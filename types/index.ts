@@ -18,6 +18,7 @@ export interface IInstructorProfile {
   language: string;
   social: string;
   isActive: boolean;
+  rating: number;
 }
 
 export interface ICourse {

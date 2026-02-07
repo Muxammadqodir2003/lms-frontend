@@ -9,6 +9,10 @@ import { Center } from "@chakra-ui/react/center";
 import { Separator } from "@chakra-ui/react/separator";
 import Link from "next/link";
 import SidebarOpener from "./sidebar-opener";
+import { BiStar } from "react-icons/bi";
+import { Text } from "@chakra-ui/react/text";
+import RatingModalOpener from "./rating-modal-opener";
+import RatingModal from "./rating-modal";
 
 const Navbar = () => {
   return (
@@ -34,6 +38,7 @@ const Navbar = () => {
             </Flex>
 
             <Center display={"flex"} flexDirection={"row"} spaceX={"4"}>
+              <RatingModalOpener />
               <Link href={"/cart"}>
                 <Button cursor={"pointer"}>
                   <CgShoppingCart />
