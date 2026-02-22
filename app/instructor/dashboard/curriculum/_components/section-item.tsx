@@ -14,6 +14,8 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import LessonView from "./lesson-view";
 import { useDeleteSectionMutation } from "@/services/section/sectionApi";
+import { toaster } from "@/components/ui/toaster";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 interface SectionItemProps {
   section: ISection;
@@ -29,6 +31,21 @@ const SectionItem = ({ section }: SectionItemProps) => {
   const style = { transform: CSS.Transform.toString(transform), transition };
 
   const [deleteSection, { isLoading }] = useDeleteSectionMutation();
+
+  const handleDeleteSection = async () => {
+    try {
+      await deleteSection(section.id);
+      toaster.success({
+        title: "Muvaffaqiyatli",
+        description: "Bo'lim o'chirish muvaffaqiyatli",
+      });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
+    }
+  };
 
   return (
     <>
@@ -65,7 +82,7 @@ const SectionItem = ({ section }: SectionItemProps) => {
                 size={12}
                 onClick={(e) => {
                   e.stopPropagation();
-                  deleteSection(section.id);
+                  handleDeleteSection();
                 }}
               />
             </HStack>

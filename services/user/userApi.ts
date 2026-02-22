@@ -20,28 +20,19 @@ export const userApi = baseApi.injectEndpoints({
         params: filters,
       }),
     }),
-    getCourseBySlug: builder.query<ICourse & { studentsCount: number }, string>(
-      {
-        query: (slug) => ({
-          url: `/course/get-course-by-slug/${slug}`,
-          method: "GET",
-        }),
-      },
-    ),
+    getCourseBySlug: builder.query<ICourse, string>({
+      query: (slug) => ({
+        url: `/course/get-course-by-slug/${slug}`,
+        method: "GET",
+      }),
+    }),
     getCourseComments: builder.query<ICourse, string>({
       query: (slug) => ({
         url: `/course/get-course-comments/${slug}`,
         method: "GET",
       }),
     }),
-    getInstructorById: builder.query<
-      {
-        instructor: IInstructorProfile;
-        coursesCount: number;
-        studentCount: number;
-      },
-      string
-    >({
+    getInstructorById: builder.query<IInstructorProfile, string>({
       query: (id) => ({
         url: `/instructor/get-by-id/${id}`,
         method: "GET",

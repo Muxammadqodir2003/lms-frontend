@@ -1,19 +1,21 @@
 "use client";
 
-import ChakraProvider from "@/components/providers/chakra-provider";
+import { useAppSelector } from "@/store/hooks";
 import { ChildProps } from "@/types";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 const Layout = ({ children }: ChildProps) => {
+  const { user } = useAppSelector((state) => state.user);
   const router = useRouter();
+
   useEffect(() => {
-    if (localStorage.getItem("accessToken")) {
+    if (user) {
       router.push("/");
     }
   }, []);
 
-  return <ChakraProvider>{children}</ChakraProvider>;
+  return <div>{children}</div>;
 };
 
 export default Layout;

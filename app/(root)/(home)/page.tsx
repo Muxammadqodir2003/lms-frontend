@@ -5,6 +5,11 @@ import CoursesCarousel from "./_components/courses.carousel";
 import CommentsCarousel from "./_components/comments-carousel";
 import LogoCarousel from "./_components/logo-carousel";
 import Subscribe from "./_components/subscribe";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Home Page",
+};
 
 const Page = () => {
   return (

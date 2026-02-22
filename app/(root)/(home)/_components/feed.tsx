@@ -6,9 +6,11 @@ import Image from "next/image";
 import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
 import { useRouter } from "next/navigation";
+import { useAppSelector } from "@/store/hooks";
 
 const Feed = () => {
   const router = useRouter();
+  const { user } = useAppSelector((state) => state.user);
 
   return (
     <Box
@@ -29,19 +31,27 @@ const Feed = () => {
           maiores animi? Illo odit eum aperiam.
         </Text>
         <Box display={"flex"} w={"full"} spaceX={"2"}>
-          <Button cursor={"pointer"} w={"1/2"} p={"6"} fontSize={"md"}>
-            O'rganishni boshlang
-          </Button>
           <Button
-            variant={"outline"}
             cursor={"pointer"}
             w={"1/2"}
             p={"6"}
             fontSize={"md"}
-            onClick={() => router.push("/become-instructor")}
+            onClick={() => router.push("/courses")}
           >
-            O'qituvchi bo'ling
+            O'rganishni boshlang
           </Button>
+          {user?.role === "STUDENT" && (
+            <Button
+              variant={"outline"}
+              cursor={"pointer"}
+              w={"1/2"}
+              p={"6"}
+              fontSize={"md"}
+              onClick={() => router.push("/become-instructor")}
+            >
+              O'qituvchi bo'ling
+            </Button>
+          )}
         </Box>
       </Box>
       <Box

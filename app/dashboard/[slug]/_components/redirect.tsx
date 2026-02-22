@@ -1,6 +1,8 @@
 "use client";
 
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 import { useGetCurrentLessonBySlugQuery } from "@/services/lesson/lessonApi";
+import { Flex, Loader } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -9,7 +11,8 @@ interface RedirectProps {
 }
 
 const Redirect = ({ slug }: RedirectProps) => {
-  const { data, isLoading, isError } = useGetCurrentLessonBySlugQuery(slug);
+  const { data, isLoading, isError, error } =
+    useGetCurrentLessonBySlugQuery(slug);
   const router = useRouter();
 
   useEffect(() => {
@@ -18,8 +21,13 @@ const Redirect = ({ slug }: RedirectProps) => {
     }
   }, [data, router]);
 
-  if (isLoading) return <div>Yuklanmoqda...</div>;
-  if (isError) return <div>Xatolik yuz berdi</div>;
+  if (isLoading)
+    return (
+      <Flex w="full" h="full" justifyContent="center" alignItems="center">
+        <Loader />
+      </Flex>
+    );
+  if (isError) return <div>{getApiErrorMessage(error)}</div>;
 
   return null;
 };

@@ -3,12 +3,13 @@
 import CourseCard from "./course-card";
 import { Box, Heading, Loader } from "@chakra-ui/react";
 import { useGetAllCoursesQuery } from "@/services/instructor/instructorApi";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const CourseView = () => {
-  const { data, isLoading, isError } = useGetAllCoursesQuery();
+  const { data, isLoading, isError, error } = useGetAllCoursesQuery();
 
   if (isLoading) return <Loader />;
-  if (isError) return <div>Error</div>;
+  if (isError) return <div>{getApiErrorMessage(error)}</div>;
 
   return (
     <Box display="flex" flexWrap="wrap" gap="2">

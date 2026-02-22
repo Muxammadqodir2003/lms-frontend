@@ -5,6 +5,7 @@ interface InitialState {
   level: string | null;
   language: string | null;
   rating: string | null;
+  search: string | null;
   page: number;
 }
 
@@ -13,6 +14,7 @@ const initialState: InitialState = {
   level: null,
   language: null,
   rating: null,
+  search: null,
   page: 1,
 };
 
@@ -32,8 +34,18 @@ const filtersSlice = createSlice({
     filterByRating: (state, action) => {
       state.rating = action.payload;
     },
+    filterBySearch: (state, action) => {
+      state.search = action.payload;
+    },
     setPage: (state, action) => {
       state.page = action.payload;
+    },
+    clearFilters: (state) => {
+      state.category = null;
+      state.level = null;
+      state.language = null;
+      state.rating = null;
+      state.search = null;
     },
   },
 });
@@ -43,6 +55,8 @@ export const {
   filterByLevel,
   filterByLanguage,
   filterByRating,
+  filterBySearch,
   setPage,
+  clearFilters,
 } = filtersSlice.actions;
 export default filtersSlice.reducer;

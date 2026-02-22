@@ -6,7 +6,7 @@ import Register from "./register";
 import Social from "./social";
 import Verify from "./verify";
 import Recovery from "./recovery";
-import { Box, Grid, GridItem, Text } from "@chakra-ui/react";
+import { Box, GridItem, Text } from "@chakra-ui/react";
 
 const State = () => {
   const { state } = useAuthState();

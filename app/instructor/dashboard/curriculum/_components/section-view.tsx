@@ -23,9 +23,10 @@ import {
   useGetSectionsQuery,
   useReorderSectionMutation,
 } from "@/services/section/sectionApi";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const SectionView = ({ slug }: { slug: string }) => {
-  const { data, isLoading, error } = useGetSectionsQuery(slug);
+  const { data, isLoading, isError, error } = useGetSectionsQuery(slug);
   const [reorderSection] = useReorderSectionMutation();
 
   const sensors = useSensors(
@@ -37,7 +38,7 @@ const SectionView = ({ slug }: { slug: string }) => {
 
   if (isLoading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (isError) return <p>{getApiErrorMessage(error)}</p>;
 
   return (
     <Accordion.Root mt={"3"} variant={"plain"} collapsible>

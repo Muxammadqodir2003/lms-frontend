@@ -8,8 +8,8 @@ import { CiClock1 } from "react-icons/ci";
 import { SiBetterstack } from "react-icons/si";
 import { Separator } from "@chakra-ui/react/separator";
 import { Button } from "@chakra-ui/react/button";
-import { ICourse } from "@/types";
-import { getDuration, getLessons } from "@/lib/helper/getCourseData";
+import { ICourse, IError } from "@/types";
+import { getDuration } from "@/lib/helper/getCourseData";
 import {
   useActiveCourseMutation,
   useDeactiveCourseMutation,
@@ -30,7 +30,10 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         description: "Kurs muvofaqqiyatli faollashtirildi",
       });
     } catch (error: any) {
-      toaster.error({ title: "Error", description: error?.data?.message });
+      toaster.error({
+        title: "Error",
+        description: (error as IError)?.data?.message,
+      });
     }
   };
 
@@ -42,7 +45,10 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         description: "Kurs muvofaqqiyatli faolsizlantirildi",
       });
     } catch (error: any) {
-      toaster.error({ title: "Error", description: error?.data?.message });
+      toaster.error({
+        title: "Error",
+        description: (error as IError)?.data?.message,
+      });
     }
   };
 
@@ -59,11 +65,11 @@ const CourseCard = ({ course }: { course: ICourse }) => {
         <HStack mt={"2"}>
           <HStack>
             <MdPlayLesson />
-            <Text>{getLessons(course)}</Text>
+            <Text>{course.totalLessons}</Text>
           </HStack>
           <HStack>
             <CiClock1 />
-            <Text>{getDuration(course)}</Text>
+            <Text>{getDuration(course.totalDuration)}</Text>
           </HStack>
           <HStack>
             <SiBetterstack />

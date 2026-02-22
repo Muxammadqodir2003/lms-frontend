@@ -1,16 +1,17 @@
 "use client";
 
 import { useGetLogsQuery } from "@/services/admin/adminApi";
-import { Table } from "@chakra-ui/react";
+import { Loader, Table } from "@chakra-ui/react";
 import { useState } from "react";
 import { formatDistanceToNowStrict } from "date-fns";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const LogsView = () => {
   const [page, setPage] = useState(1);
   const { data, isLoading, error } = useGetLogsQuery(page);
 
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error</div>;
+  if (isLoading) return <Loader />;
+  if (error) return <div>{getApiErrorMessage(error)}</div>;
 
   return (
     <Table.Root size="lg" striped mt={"3"}>

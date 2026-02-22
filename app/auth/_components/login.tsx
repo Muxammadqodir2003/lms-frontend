@@ -6,11 +6,12 @@ import { setCredentials } from "@/store/user/user.slice";
 import { useAuthState } from "@/hooks/useAuthState";
 import { useRouter } from "next/navigation";
 import { Box, Button, Field, Heading, Input, Text } from "@chakra-ui/react";
-import { LoginFormValues } from "@/types";
+import { IError, LoginFormValues } from "@/types";
 import { ErrorMessage, Form, Formik, FormikHelpers } from "formik";
 import { toaster } from "@/components/ui/toaster";
 import { useAppDispatch } from "@/store/hooks";
 import { PasswordInput } from "@/components/ui/password-input";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const Login = () => {
   const router = useRouter();
@@ -18,15 +19,12 @@ const Login = () => {
   const [login, { isLoading }] = useLoginMutation();
   const { setState } = useAuthState();
 
-  const initialValue: LoginFormValues = {
+  const initialValues: LoginFormValues = {
     email: "",
     password: "",
   };
 
-  async function onSubmit(
-    values: LoginFormValues,
-    actions: FormikHelpers<LoginFormValues>,
-  ) {
+  async function handleSubmit(values: LoginFormValues) {
     try {
       toaster.dismiss();
       const data = await login(values).unwrap();
@@ -35,13 +33,11 @@ const Login = () => {
         title: "Muvaffaqiyatli",
         description: "Sizning hisobingizga kirdingiz",
       });
-      actions.resetForm();
       router.push("/");
-    } catch (error) {
+    } catch (error: unknown) {
       toaster.error({
-        title: "Xatolik",
-        // @ts-ignore
-        description: error?.data?.message,
+        title: "Tizimga kirishda xatolik",
+        description: getApiErrorMessage(error),
       });
     }
   }
@@ -53,42 +49,47 @@ const Login = () => {
         Sizni yana platformamizda ko'rib turishdan xursandmiz, ko'proq tajriba
         orttirish uchun hisobingizga kiring
       </Text>
-      <Formik<LoginFormValues>
-        initialValues={initialValue}
+      <Formik
+        initialValues={initialValues}
         validationSchema={loginSchema}
-        onSubmit={(values, actions) => onSubmit(values, actions)}
+        onSubmit={handleSubmit}
+        enableReinitialize
       >
-        {(formik) => (
-          <Form onSubmit={formik.handleSubmit}>
-            <Field.Root mt={"2"}>
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field.Root invalid={!!(touched.email && errors.email)} mt="2">
               <Field.Label fontSize={"xl"}>Email</Field.Label>
               <Input
-                pl={"2"}
-                bg={"gray.900"}
-                variant={"subtle"}
+                style={{
+                  borderColor: errors.email && touched.email ? "red" : "gray",
+                }}
+                p={"2"}
                 name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+                value={values.email}
+                onChange={handleChange}
                 placeholder="Email manzilingizni kiriting"
-                disabled={isLoading}
               />
-              <ErrorMessage name="email" className="text-red" />
+              <Field.ErrorText>{errors.email}</Field.ErrorText>
             </Field.Root>
-            <Field.Root mt={"3"}>
+            <Field.Root
+              invalid={!!(touched.password && errors.password)}
+              mt={"3"}
+            >
               <Field.Label fontSize={"xl"}>Parol</Field.Label>
               <PasswordInput
-                pl={"2"}
-                bg={"gray.900"}
+                style={{
+                  borderColor:
+                    errors.password && touched.password ? "red" : "gray",
+                }}
+                p={"2"}
                 name="password"
                 type="password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
+                onChange={handleChange}
+                value={values.password}
                 placeholder="Parolingizni kiriting"
                 disabled={isLoading}
               />
-              <ErrorMessage name="password" />
+              <Field.ErrorText>{errors.password}</Field.ErrorText>
             </Field.Root>
             <Text
               textAlign={"end"}

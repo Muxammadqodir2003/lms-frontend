@@ -16,6 +16,8 @@ import {
   useCreateLessonMutation,
   useUpdateLessonMutation,
 } from "@/services/lesson/lessonApi";
+import { IError } from "@/types";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const LessonForm = ({
   sectionId,
@@ -52,8 +54,11 @@ const LessonForm = ({
         });
         onClose();
         setEditedLesson(null);
-      } catch (error) {
-        toaster.error({ title: "Xatolik", description: error?.data?.message });
+      } catch (error: unknown) {
+        toaster.error({
+          title: "Xatolik",
+          description: getApiErrorMessage(error),
+        });
       }
     } else {
       try {
@@ -67,8 +72,11 @@ const LessonForm = ({
         });
         onClose();
         setEditedLesson(null);
-      } catch (error) {
-        toaster.error({ title: "Xatolik", description: error?.data?.message });
+      } catch (error: unknown) {
+        toaster.error({
+          title: "Xatolik",
+          description: getApiErrorMessage(error),
+        });
       }
     }
   };

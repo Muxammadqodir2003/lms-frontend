@@ -15,6 +15,8 @@ import {
   useCreateSectionMutation,
   useUpdateSectionMutation,
 } from "@/services/section/sectionApi";
+import { IError } from "@/types";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const SectionFromModal = ({ slug }: { slug: string }) => {
   const { isOpen, setIsOpen } = useSectionModalStore();
@@ -43,8 +45,11 @@ const SectionFromModal = ({ slug }: { slug: string }) => {
       });
       setIsOpen(false);
       setEditedSection(null);
-    } catch (error) {
-      toaster.error({ title: "Xatolik", description: error?.data?.message });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   };
 

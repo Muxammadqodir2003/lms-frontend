@@ -14,6 +14,9 @@ import Link from "next/link";
 import { BiHome } from "react-icons/bi";
 import { PiList } from "react-icons/pi";
 import { usePathname } from "next/navigation";
+import { FcAbout, FcContacts } from "react-icons/fc";
+import { MdPriceCheck } from "react-icons/md";
+import { FaQ } from "react-icons/fa6";
 
 const items = [
   {
@@ -26,6 +29,13 @@ const items = [
     url: "/courses",
     icon: PiList,
   },
+];
+
+const navItems = [
+  { label: "Biz haqimizda", path: "/about", icon: FcAbout },
+  { label: "Kontakt", path: "/contact", icon: FcContacts },
+  { label: "Narxlar", path: "/prices", icon: MdPriceCheck },
+  { label: "FAQ", path: "/faq", icon: FaQ },
 ];
 
 const MobileSidebar = () => {
@@ -48,7 +58,7 @@ const MobileSidebar = () => {
                 w={"full"}
               >
                 <Text color={"gray.400"} mt={"2"} mb={"3"} pl={"2"}>
-                  Sahifalar
+                  Asosiy
                 </Text>
                 {items.map((item) => (
                   <Box w={"full"} key={item.url}>
@@ -68,6 +78,26 @@ const MobileSidebar = () => {
                   </Box>
                 ))}
               </Box>
+              <Text color={"gray.400"} mt={"2"} mb={"3"} pl={"2"}>
+                Sahifalar
+              </Text>
+              {navItems.map((item) => (
+                <Box w={"full"} key={item.path}>
+                  <Link href={item.path}>
+                    <HStack
+                      w={"full"}
+                      p={"2"}
+                      fontSize={"xl"}
+                      h={"12"}
+                      bg={pathname === item.path ? "green.600" : ""}
+                      _hover={{ bg: "gray.600" }}
+                    >
+                      <item.icon />
+                      <Text>{item.label}</Text>
+                    </HStack>
+                  </Link>
+                </Box>
+              ))}
             </Drawer.Body>
             <Drawer.CloseTrigger asChild top={0} mr={"2"}>
               <CloseButton size="sm" />

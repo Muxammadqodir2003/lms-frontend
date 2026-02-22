@@ -1,5 +1,3 @@
-"use client";
-
 import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
 import { Card } from "@chakra-ui/react/card";
@@ -20,7 +18,9 @@ import { ICourse } from "@/types";
 import { useRouter } from "next/navigation";
 import { useDeleteCourseMutation } from "@/services/instructor/instructorApi";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
-import { getDuration, getLessons } from "@/lib/helper/getCourseData";
+import { getDuration } from "@/lib/helper/getCourseData";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
+import { toaster } from "@/components/ui/toaster";
 
 interface CourseCardProps {
   course: ICourse;
@@ -33,9 +33,16 @@ const CourseCard = ({ course }: CourseCardProps) => {
 
   const handleDeleteCourse = async () => {
     try {
-      await deleteCourse(`${course.slug}`).unwrap();
-    } catch (error) {
-      console.log(error);
+      await deleteCourse(course.slug).unwrap();
+      toaster.success({
+        title: "Muvaffaqiyatli",
+        description: "Kurs o'chirish muvaffaqiyatli",
+      });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   };
 
@@ -60,15 +67,15 @@ const CourseCard = ({ course }: CourseCardProps) => {
           <HStack mt={"2"}>
             <HStack>
               <MdPlayLesson />
-              <Text>{getLessons(course)} lessons</Text>
+              <p>{course.totalLessons}</p>
             </HStack>
             <HStack>
               <CiClock1 />
-              <Text>{getDuration(course)} hours</Text>
+              <p>{getDuration(course.totalDuration)}</p>
             </HStack>
             <HStack>
               <SiBetterstack />
-              <Text>{course.level}</Text>
+              <p>{course.level}</p>
             </HStack>
           </HStack>
           <Separator w={"full"} my={"3"} />

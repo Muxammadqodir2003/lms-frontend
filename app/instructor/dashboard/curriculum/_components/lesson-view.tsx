@@ -26,10 +26,13 @@ import LessonItem from "./lesson-item";
 import { Text } from "@chakra-ui/react/text";
 import LessonForm from "./lesson-form";
 import { useState } from "react";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const LessonView = ({ sectionId }: { sectionId: number }) => {
   const [showForm, setShowForm] = useState(false);
-  const { data, isLoading, error } = useGetLessonsQuery(sectionId.toString());
+  const { data, isLoading, isError, error } = useGetLessonsQuery(
+    sectionId.toString(),
+  );
   const [reorderLesson] = useReorderLessonMutation();
 
   const sensors = useSensors(
@@ -41,7 +44,7 @@ const LessonView = ({ sectionId }: { sectionId: number }) => {
 
   if (isLoading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (isError) return <p>{getApiErrorMessage(error)}</p>;
 
   return (
     <Flex w={"full"} flexDirection={"column"}>

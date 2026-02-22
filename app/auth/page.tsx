@@ -2,6 +2,11 @@ import Navbar from "./_components/navbar";
 import State from "./_components/state";
 
 import { Box, Container, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Authentication",
+};
 
 const Page = () => {
   return (

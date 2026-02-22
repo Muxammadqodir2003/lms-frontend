@@ -1,3 +1,4 @@
+import { IComment } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const ratingApi = baseApi.injectEndpoints({
@@ -10,14 +11,14 @@ export const ratingApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["Comments"],
     }),
-    getRating: builder.query({
+    getRating: builder.query<IComment, string>({
       query: (slug) => ({
         url: `/comment/${slug}`,
         method: "GET",
       }),
       providesTags: ["Comments"],
     }),
-    getRatings: builder.query({
+    getRatings: builder.query<IComment[], string>({
       query: (slug) => ({
         url: `/comment/get-all/${slug}`,
         method: "GET",

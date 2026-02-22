@@ -7,6 +7,9 @@ import { useCompleteLessonMutation } from "@/services/user/userApi";
 import { toaster } from "@/components/ui/toaster";
 import { useRouter } from "next/navigation";
 import parse from "html-react-parser";
+import { IError } from "@/types";
+import { Suspense } from "react";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 interface LessonWatchProps {
   lessonId: string;
@@ -16,7 +19,7 @@ interface LessonWatchProps {
 const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
   const router = useRouter();
 
-  const { data, isLoading, isError } = useGetLessonByIdQuery({
+  const { data, isLoading, isError, error } = useGetLessonByIdQuery({
     lessonId,
     slug,
   });
@@ -43,10 +46,10 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         });
         router.push(`/courses`);
       }
-    } catch (error: any) {
+    } catch (error) {
       toaster.error({
         title: "Xatolik",
-        description: error?.data?.message,
+        description: getApiErrorMessage(error),
       });
     }
   };
@@ -72,16 +75,26 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
       w={"full"}
     >
       <Flex w="full" aspectRatio={16 / 9}>
-        <video
-          src={data?.video}
-          controls
-          preload="metadata"
-          controlsList="nodownload"
-          onCanPlay={() => console.log("Video ready")}
-          onError={(e) => console.log("Video error:", e)}
-          disablePictureInPicture
-          style={{ width: "100%", height: "100%", objectFit: "contain" }}
-        />
+        {isLoading && (
+          <Flex
+            w="full"
+            h="full"
+            justifyContent={"center"}
+            alignItems={"center"}
+          >
+            <Loader />
+          </Flex>
+        )}
+        {!isLoading && (
+          <video
+            src={data?.video}
+            controls
+            preload="metadata"
+            controlsList="nodownload"
+            disablePictureInPicture
+            style={{ width: "100%", height: "100%", objectFit: "contain" }}
+          />
+        )}
       </Flex>
       <Flex
         w={"full"}
@@ -136,7 +149,9 @@ const LessonWatch = ({ lessonId, slug }: LessonWatchProps) => {
         w={"full"}
         display={{ base: "block", md: "block", lg: "none", xl: "none" }}
       >
-        <AccardionContent slug={slug} />
+        <Suspense fallback={<div>Loading...</div>}>
+          <AccardionContent slug={slug} />
+        </Suspense>
       </Box>
     </Flex>
   );

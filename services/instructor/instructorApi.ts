@@ -1,4 +1,4 @@
-import { ICourse, ILesson, ISection } from "@/types";
+import { ICourse } from "@/types";
 import { baseApi } from "../baseApi";
 
 export const instructorApi = baseApi.injectEndpoints({

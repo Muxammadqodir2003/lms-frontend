@@ -5,6 +5,7 @@ import CourseCard from "./course-card";
 import { useGetAllCoursesQuery } from "@/services/instructor/instructorApi";
 import { Button, Flex, Loader } from "@chakra-ui/react";
 import { useMemo, useState } from "react";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const CourseView = () => {
   const [isActive, setIsActive] = useState(false);
@@ -23,7 +24,7 @@ const CourseView = () => {
   }
 
   if (error) {
-    return <p>Error</p>;
+    return <p>{getApiErrorMessage(error)}</p>;
   }
 
   return (

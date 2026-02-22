@@ -9,17 +9,18 @@ import ActiveInstructor from "./active-instructor";
 import InActiveInstructor from "./inactive-instructor";
 import { useAppDispatch } from "@/store/hooks";
 import { toaster } from "@/components/ui/toaster";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const InstructorsView = () => {
   const [status, setStatus] = useState<"active" | "inactive">("inactive");
   const [page, setPage] = useState(1);
-  const { data, isLoading } = useGetAllInstructorQuery(page);
+  const { data, isLoading, isError, error } = useGetAllInstructorQuery(page);
   const dispatch = useAppDispatch();
 
   const socket = useRef<ReturnType<typeof io> | null>(null);
 
   useEffect(() => {
-    socket.current = io("http://localhost:4000", {
+    socket.current = io(process.env.NEXT_PUBLIC_API_URL, {
       auth: {
         role: "ADMIN",
       },
@@ -61,6 +62,8 @@ const InstructorsView = () => {
   );
 
   if (isLoading) return <Loader />;
+
+  if (isError) return <div>{getApiErrorMessage(error)}</div>;
 
   return (
     <>

@@ -33,7 +33,7 @@ const QuillEditor: React.FC<EditorProps> = ({ value, onChange }) => {
       direction="column"
       w="full"
       // minH="400px"
-      className="quill-dark-theme"
+      // className="quill-light-theme"
       css={{
         ".quill": {
           display: "flex",

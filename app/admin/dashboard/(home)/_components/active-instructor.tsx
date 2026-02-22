@@ -6,6 +6,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useDeactivateInstructorMutation } from "@/services/admin/adminApi";
 import { Loader } from "@chakra-ui/react";
 import { toaster } from "@/components/ui/toaster";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 interface Props {
   data: IUser[] | undefined;
@@ -25,9 +26,11 @@ const ActiveInstructor = ({ data, setPage, page, isLoading }: Props) => {
         title: "Muvaffaqiyatli",
         description: "Instructor faolsizlantirildi",
       });
-    } catch (error) {
-      // @ts-ignore
-      toaster.error({ title: "Xatolik", description: error?.data?.message });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   };
 

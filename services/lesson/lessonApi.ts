@@ -60,7 +60,7 @@ export const lessonApi = baseApi.injectEndpoints({
         body: {
           lessons: lessons.map((lesson, index) => ({
             id: lesson.id,
-            orderIndex: index,
+            orderIndex: index + 1,
           })),
         },
       }),

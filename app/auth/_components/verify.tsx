@@ -7,73 +7,102 @@ import { useDispatch } from "react-redux";
 import { setCredentials } from "@/store/user/user.slice";
 import { toaster } from "@/components/ui/toaster";
 import { PinInput } from "@chakra-ui/react/pin-input";
-import { Heading } from "@chakra-ui/react/heading";
-import { Text } from "@chakra-ui/react/text";
 import { Button } from "@chakra-ui/react/button";
-import { useState } from "react";
-import { VStack } from "@chakra-ui/react";
+import { Flex } from "@chakra-ui/react";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
+import { Form, Formik } from "formik";
+import { pinSchema } from "@/lib/validation";
 
 const Verify = () => {
-  const [value, setValue] = useState<string[]>(["", "", "", "", "", ""]);
   const router = useRouter();
   const dispatch = useDispatch();
   const [verify, { isLoading }] = useVerifyMutation();
   const { data } = useData();
 
-  async function onSubmit() {
-    if (value.join("").length < 6) return;
+  async function onSubmit(values: { otp: string }) {
     try {
-      const res = await verify({ ...data, otp: value.join("") }).unwrap();
+      const res = await verify({ ...data, otp: values.otp }).unwrap();
       if (res) {
         dispatch(setCredentials(res));
         router.push("/");
         return;
       }
-    } catch (error) {
-      const message =
-        // @ts-ignore
-        error?.data?.message || error?.error || "Email yoki parol noto'g'ri";
-      toaster.error({ description: message });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Tasdiqlashda xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   }
 
   return (
-    <div className="">
-      <Heading fontSize={"4xl"} mb={"4"}>
-        Tasdiqlash
-      </Heading>
-      <Text color={"gray.400"}>
-        Oxirgi qadam va deyarli bajarildi, biz sizning elektron pochtangizga
-        yuborgan 6 ta raqamdan iborat tastiqlash kodini kiriting
-      </Text>
-      <VStack mt={"2"}>
-        {/* <form onSubmit={onSubmit}> */}
-        <PinInput.Root
-          variant={"subtle"}
-          value={value}
-          onValueChange={(e) => setValue(e.value)}
-        >
-          <PinInput.HiddenInput />
-          <PinInput.Control>
-            <PinInput.Input index={0} />
-            <PinInput.Input index={1} />
-            <PinInput.Input index={2} />
-            <PinInput.Input index={3} />
-            <PinInput.Input index={4} />
-            <PinInput.Input index={5} />
-          </PinInput.Control>
-        </PinInput.Root>
-        <Button
-          disabled={isLoading || value.join("").length < 6}
-          onClick={onSubmit}
-          w={"full"}
-          mt={"3"}
-        >
-          Submit
-        </Button>
-        {/* </form> */}
-      </VStack>
-    </div>
+    <Formik
+      initialValues={{ otp: "" }}
+      validationSchema={pinSchema}
+      enableReinitialize
+      onSubmit={onSubmit}
+    >
+      {({ setFieldValue, values, errors, touched, setFieldTouched }) => {
+        const charArray = values.otp.split("");
+        const displayValue = Array.from(
+          { length: 6 },
+          (_, i) => charArray[i] ?? "",
+        );
+
+        return (
+          <Form>
+            <Flex
+              flexDirection={"column"}
+              gap={"2"}
+              w={"full"}
+              h={"full"}
+              justifyContent={"center"}
+              alignItems={"center"}
+            >
+              <PinInput.Root
+                disabled={isLoading}
+                variant="subtle"
+                value={displayValue}
+                onValueChange={(details) => {
+                  const stringValue = details.value.join("");
+                  setFieldValue("otp", stringValue);
+                }}
+                onValueInvalid={() => setFieldTouched("otp", true)}
+              >
+                <PinInput.Label display={"block"} fontSize={"xl"} mb={"2"}>
+                  Tasdiqlash kodi
+                </PinInput.Label>
+                <PinInput.Control>
+                  {[0, 1, 2, 3, 4, 5].map((index) => (
+                    <PinInput.Input
+                      key={index}
+                      index={index}
+                      style={{
+                        borderColor: errors.otp && touched.otp ? "red" : "gray",
+                      }}
+                    />
+                  ))}
+                </PinInput.Control>
+              </PinInput.Root>
+
+              {errors.otp && touched.otp && (
+                <p style={{ color: "red", fontSize: "14px" }}>{errors.otp}</p>
+              )}
+
+              <Button
+                type="submit"
+                mt={4}
+                w={"full"}
+                disabled={isLoading}
+                loading={isLoading}
+              >
+                Yuborish
+              </Button>
+            </Flex>
+          </Form>
+        );
+      }}
+    </Formik>
   );
 };
 

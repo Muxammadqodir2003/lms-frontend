@@ -1,5 +1,10 @@
 import { Container, Heading } from "@chakra-ui/react";
 import LogsView from "./_components/logs-view";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "System Logs",
+};
 
 const Page = () => {
   return (

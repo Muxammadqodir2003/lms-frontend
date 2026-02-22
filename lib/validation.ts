@@ -1,6 +1,9 @@
 import { EmailValues, LoginFormValues, RegisterFormValues } from "@/types";
 import * as Yup from "yup";
 
+const FILE_SIZE = 5 * 1024 * 1024;
+const SUPPORTED_FORMATS = ["image/jpg", "image/jpeg", "image/png"];
+
 export const registerSchema: Yup.ObjectSchema<RegisterFormValues> =
   Yup.object().shape({
     email: Yup.string()
@@ -24,6 +27,12 @@ export const loginSchema: Yup.ObjectSchema<LoginFormValues> =
       .min(6, "Parol kamida 6 ta belgidan iborat bo'lishi kerak")
       .required("Parol kiritishingiz shart"),
   });
+
+export const pinSchema = Yup.object().shape({
+  otp: Yup.string()
+    .length(6, "Kodni to'liq kiriting")
+    .required("PIN kod kiritish majburiy"),
+});
 
 export const emailSchema: Yup.ObjectSchema<EmailValues> = Yup.object().shape({
   email: Yup.string()
@@ -52,14 +61,37 @@ export const courseSchema = Yup.object().shape({
   slug: Yup.string().required("Slug bo'lishi shart"),
   title: Yup.string().required("Title bo'lishi shart"),
   subTitle: Yup.string().required("Sub title bo'lishi shart"),
-  whatsLearn: Yup.array(),
-  requirements: Yup.array(),
-  tags: Yup.array().min(3, "Kamida 3 ta teg bo'lishi shart"),
-  description: Yup.string().required("deskription bo'lishi shart"),
-  level: Yup.string().required(),
-  category: Yup.string().required(),
-  price: Yup.number().required(),
-  language: Yup.string().required(),
+  whatsLearn: Yup.array()
+    .of(Yup.string())
+    .min(3, "Kamida 3 ta teg kiriting!")
+    .max(10, "10 tadan ko'p bo'lishi mumkin emas!")
+    .required("Bu maydonni to'ldirish shart!"),
+  requirements: Yup.array()
+    .of(Yup.string())
+    .min(2, "Kamida 2 ta teg kiriting!")
+    .max(10, "10 tadan ko'p bo'lishi mumkin emas!")
+    .required("Bu maydonni to'ldirish shart!"),
+  tags: Yup.array()
+    .min(3, "Kamida 3 ta teg bo'lishi shart")
+    .max(10, "10 tadan ko'p bo'lishi mumkin emas!")
+    .required("Bu maydonni to'ldirish shart!"),
+  description: Yup.string().optional(),
+  level: Yup.string().required("Bu maydonni to'ldirish shart!"),
+  category: Yup.string().required("Bu maydonni to'ldirish shart!"),
+  price: Yup.number().required("Bu maydonni to'ldirish shart!"),
+  language: Yup.string().required("Bu maydonni to'ldirish shart!"),
+  image: Yup.mixed<File>()
+    .required("Rasm yuklash majburiy!")
+    .test("fileSize", "Fayl juda katta (max 5MB)", (value) => {
+      return !value || (value instanceof File && value.size <= 5 * 1024 * 1024);
+    })
+    .test("fileFormat", "Format noto'g'ri", (value) => {
+      return (
+        !value ||
+        (value instanceof File &&
+          ["image/jpeg", "image/png"].includes(value.type))
+      );
+    }),
 });
 
 export const sectionSchema = Yup.object().shape({

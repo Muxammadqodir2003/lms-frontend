@@ -29,7 +29,7 @@ const ProfileButton = () => {
           <Popover.Content>
             <Popover.Body>
               <Center py={"4"} display={"flex"} flexDirection={"column"}>
-                {user?.role === "INSTRUCTOR" && (
+                {user?.role === "INSTRUCTOR" ? (
                   <Text
                     fontSize={"lg"}
                     p={"3"}
@@ -41,8 +41,8 @@ const ProfileButton = () => {
                   >
                     O'qituvchi admin
                   </Text>
-                )}
-                {user?.role === "ADMIN" && (
+                ) : null}
+                {user?.role === "ADMIN" ? (
                   <Text
                     fontSize={"lg"}
                     p={"3"}
@@ -54,18 +54,20 @@ const ProfileButton = () => {
                   >
                     Admin Dashboard
                   </Text>
-                )}
-                <Text
-                  fontSize={"lg"}
-                  p={"3"}
-                  _hover={{ bg: "gray.800" }}
-                  w={"full"}
-                  mb={"2"}
-                  cursor={"pointer"}
-                  onClick={() => router.push("/dashboard")}
-                >
-                  Dashboard
-                </Text>
+                ) : null}
+                {user?.role === "STUDENT" ? (
+                  <Text
+                    fontSize={"lg"}
+                    p={"3"}
+                    _hover={{ bg: "gray.800" }}
+                    w={"full"}
+                    mb={"2"}
+                    cursor={"pointer"}
+                    onClick={() => router.push("/dashboard")}
+                  >
+                    Dashboard
+                  </Text>
+                ) : null}
 
                 <Text
                   fontSize={"lg"}

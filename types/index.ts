@@ -4,6 +4,12 @@ export interface ChildProps {
   children: ReactNode;
 }
 
+export interface IError {
+  data?: {
+    message?: string;
+  };
+}
+
 export interface IUser {
   id: string;
   email: string;
@@ -19,6 +25,8 @@ export interface IInstructorProfile {
   social: string;
   isActive: boolean;
   rating: number;
+  studentsCount: number;
+  coursesCount: number;
 }
 
 export interface ICourse {
@@ -39,6 +47,10 @@ export interface ICourse {
   updatedAt: string;
   instructorId: string;
   isPublished: boolean;
+  totalDuration: number;
+  totalLessons: number;
+  commentsCount: number;
+  studentsCount: number;
   sections: ISection[];
   instructor: IInstructorProfile;
 }
@@ -47,7 +59,10 @@ export interface ISection {
   id: number;
   name: string;
   courseId: string;
+  totalDuration: number;
+  totalLessons: number;
   lessons: ILesson[];
+  orderIndex: number;
 }
 
 export interface ILesson {
@@ -57,6 +72,17 @@ export interface ILesson {
   duration: number;
   description?: string;
   sectionId: number;
+  orderIndex: number;
+}
+
+export interface IComment {
+  id: number;
+  userId: string;
+  courseId: string;
+  rating: number;
+  comment: string;
+  user: IUser;
+  createdAt: string;
 }
 
 export interface IFilters {
@@ -71,6 +97,7 @@ export interface IEnrollment {
   id: number;
   course: ICourse;
   progress: number;
+  courseId: number;
   currentLessonId: number;
 }
 

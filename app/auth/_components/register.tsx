@@ -4,7 +4,7 @@ import { registerSchema } from "@/lib/validation";
 import { useRegisterMutation } from "@/services/auth/authApi";
 import { useAuthState } from "@/hooks/useAuthState";
 import { useData } from "@/hooks/useData";
-import { RegisterFormValues } from "@/types";
+import { IError, RegisterFormValues } from "@/types";
 import { toaster } from "@/components/ui/toaster";
 import { HStack } from "@chakra-ui/react";
 import { Box } from "@chakra-ui/react/box";
@@ -15,6 +15,7 @@ import { Text } from "@chakra-ui/react/text";
 import { Input } from "@chakra-ui/react/input";
 import { ErrorMessage, Form, Formik } from "formik";
 import { PasswordInput } from "@/components/ui/password-input";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const Register = () => {
   const { setData } = useData();
@@ -30,18 +31,17 @@ const Register = () => {
   async function onSubmit(values: RegisterFormValues) {
     try {
       const res = await register({ email: values.email }).unwrap();
-      console.log(res);
       const data = { email: values.email, password: values.password };
 
       setData(data);
       if (res) {
         setState("verify");
       }
-    } catch (error) {
-      const message =
-        // @ts-ignore
-        error?.data?.message || error?.error || "Email yoki parol noto'g'ri";
-      toaster.error({ description: message });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   }
 
@@ -55,55 +55,68 @@ const Register = () => {
         muxandislik jamoamizning bir qismiga aylaning va martabangizni ko'taring
       </Text>
       <Formik<RegisterFormValues>
-        validationSchema={registerSchema}
         initialValues={initialValues}
+        validationSchema={registerSchema}
         onSubmit={onSubmit}
+        enableReinitialize
       >
-        {(formik) => (
-          <Form onSubmit={formik.handleSubmit}>
-            <Field.Root mt={"2"}>
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field.Root invalid={!!(touched.email && errors.email)} mt="2">
               <Field.Label fontSize={"xl"}>Email</Field.Label>
               <Input
-                pl={"2"}
-                bg={"gray.950"}
-                variant={"subtle"}
+                style={{
+                  borderColor: errors.email && touched.email ? "red" : "gray",
+                }}
+                p={"2"}
                 name="email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
-                placeholder="Email manzilingizni kiriting"
-                disabled={isLoading}
+                value={values.email}
+                onChange={handleChange}
+                placeholder="Email manzilingizni kiriting!"
               />
-              <ErrorMessage name="email" className="text-red" />
+              <Field.ErrorText>{errors.email}</Field.ErrorText>
             </Field.Root>
             <HStack>
-              <Field.Root mt={"3"}>
+              <Field.Root
+                invalid={!!(touched.password && errors.password)}
+                mt={"3"}
+              >
                 <Field.Label fontSize={"xl"}>Parol</Field.Label>
                 <PasswordInput
-                  pl={"2"}
-                  bg={"gray.950"}
+                  style={{
+                    borderColor:
+                      errors.password && touched.password ? "red" : "gray",
+                  }}
+                  p={"2"}
                   name="password"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                  placeholder="Parolingizni kiriting"
+                  type="password"
+                  onChange={handleChange}
+                  value={values.password}
+                  placeholder="Parolingizni kiriting!"
                   disabled={isLoading}
                 />
-                <ErrorMessage name="password" />
+                <Field.ErrorText>{errors.password}</Field.ErrorText>
               </Field.Root>
-              <Field.Root mt={"3"}>
+              <Field.Root
+                invalid={!!(touched.confirmPassword && errors.confirmPassword)}
+                mt={"3"}
+              >
                 <Field.Label fontSize={"xl"}>Parolni tasdiqlash</Field.Label>
                 <PasswordInput
-                  pl={"2"}
-                  bg={"gray.950"}
+                  style={{
+                    borderColor:
+                      errors.confirmPassword && touched.confirmPassword
+                        ? "red"
+                        : "gray",
+                  }}
+                  p={"2"}
                   name="confirmPassword"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.confirmPassword}
-                  placeholder="Parolingizni kiriting"
+                  onChange={handleChange}
+                  value={values.confirmPassword}
+                  placeholder="Parolingizni tasdiqlang!"
                   disabled={isLoading}
                 />
-                <ErrorMessage name="confirmPassword" />
+                <Field.ErrorText>{errors.confirmPassword}</Field.ErrorText>
               </Field.Root>
             </HStack>
             <Text

@@ -1,3 +1,4 @@
+import { IUser } from "@/types";
 import { baseAuthApi } from "../baseAuthApi";
 
 export const authApi = baseAuthApi.injectEndpoints({
@@ -14,6 +15,12 @@ export const authApi = baseAuthApi.injectEndpoints({
         url: "/auth/verify",
         method: "POST",
         body,
+      }),
+    }),
+    refresh: builder.mutation<IUser, void>({
+      query: () => ({
+        url: "/auth/refresh",
+        method: "POST",
       }),
     }),
     login: builder.mutation({
@@ -45,5 +52,6 @@ export const {
   useLoginMutation,
   useVerifyMutation,
   useGetUrlMutation,
+  useRefreshMutation,
   useRecoveryMutation,
 } = authApi;

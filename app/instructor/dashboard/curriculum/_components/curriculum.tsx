@@ -11,15 +11,16 @@ import { useSectionModalStore } from "@/hooks/useSectionModal";
 import SectionFromModal from "./section-from.modal";
 import SectionView from "./section-view";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const Curriculum = ({ slug }: { slug: string }) => {
   const { setIsOpen } = useSectionModalStore();
   const { setEditedSection } = useEditedCourse();
-  const { data, isLoading, error } = useGetCourseBySlugQuery(slug);
+  const { data, isLoading, isError, error } = useGetCourseBySlugQuery(slug);
 
   if (isLoading) return <Loader />;
 
-  if (error) return <p>Error</p>;
+  if (isError) return <p>{getApiErrorMessage(error)}</p>;
 
   return (
     <>

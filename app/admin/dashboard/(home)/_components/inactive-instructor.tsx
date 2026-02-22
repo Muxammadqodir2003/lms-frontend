@@ -8,6 +8,7 @@ import { Dispatch, SetStateAction } from "react";
 import { useApproveInstructorMutation } from "@/services/admin/adminApi";
 import { toaster } from "@/components/ui/toaster";
 import { Loader } from "@chakra-ui/react";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 interface Props {
   data: IUser[] | undefined;
@@ -27,9 +28,11 @@ const InActiveInstructor = ({ data, setPage, page, isLoading }: Props) => {
         title: "Muvaffaqiyatli",
         description: "Instructor tasdiqlandi",
       });
-    } catch (error) {
-      // @ts-ignore
-      toaster.error({ title: "Xatolik", description: error?.data?.message });
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
     }
   };
 

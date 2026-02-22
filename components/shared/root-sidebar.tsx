@@ -2,11 +2,14 @@
 
 import { Text } from "@chakra-ui/react/text";
 import { Box } from "@chakra-ui/react/box";
-import { HStack, VStack } from "@chakra-ui/react/stack";
+import { HStack } from "@chakra-ui/react/stack";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BiHome } from "react-icons/bi";
 import { PiList } from "react-icons/pi";
+import { FcAbout, FcContacts } from "react-icons/fc";
+import { MdPriceCheck } from "react-icons/md";
+import { FaQ } from "react-icons/fa6";
 
 const items = [
   {
@@ -19,6 +22,13 @@ const items = [
     url: "/courses",
     icon: PiList,
   },
+];
+
+const navItems = [
+  { label: "Biz haqimizda", path: "/about", icon: FcAbout },
+  { label: "Kontakt", path: "/contact", icon: FcContacts },
+  { label: "Narxlar", path: "/prices", icon: MdPriceCheck },
+  { label: "FAQ", path: "/faq", icon: FaQ },
 ];
 
 const RootSidebar = () => {
@@ -44,7 +54,7 @@ const RootSidebar = () => {
         w={"full"}
       >
         <Text color={"gray.400"} mt={"2"} mb={"3"}>
-          Sahifalar
+          Asosiy
         </Text>
         {items.map((item) => (
           <Box w={"full"} key={item.url}>
@@ -59,6 +69,27 @@ const RootSidebar = () => {
               >
                 <item.icon />
                 <Text>{item.title}</Text>
+              </HStack>
+            </Link>
+          </Box>
+        ))}
+
+        <Text color={"gray.400"} mt={"2"} mb={"3"}>
+          Sahifalar
+        </Text>
+        {navItems.map((item) => (
+          <Box w={"full"} key={item.path}>
+            <Link href={item.path}>
+              <HStack
+                w={"full"}
+                p={"2"}
+                fontSize={"xl"}
+                h={"12"}
+                bg={pathname === item.path ? "green.600" : ""}
+                _hover={{ bg: "gray.600" }}
+              >
+                <item.icon />
+                <Text>{item.label}</Text>
               </HStack>
             </Link>
           </Box>

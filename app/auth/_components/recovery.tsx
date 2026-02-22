@@ -4,13 +4,14 @@ import { emailSchema } from "@/lib/validation";
 import { useGetUrlMutation } from "@/services/auth/authApi";
 import { useAuthState } from "@/hooks/useAuthState";
 import { toaster } from "@/components/ui/toaster";
-import { EmailValues } from "@/types";
-import { ErrorMessage, Field, Form, Formik } from "formik";
+import { EmailValues, IError } from "@/types";
+import { ErrorMessage, Form, Formik } from "formik";
 import { Button } from "@chakra-ui/react/button";
 import { Text } from "@chakra-ui/react/text";
 import { Input } from "@chakra-ui/react/input";
-import { HStack } from "@chakra-ui/react";
+import { Field, HStack } from "@chakra-ui/react";
 import { Heading } from "@chakra-ui/react/heading";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const Recovery = () => {
   const [getUrl, { isLoading }] = useGetUrlMutation();
@@ -25,9 +26,8 @@ const Recovery = () => {
           description: "Email manzilingizga havola yuborildi uni tekshiring",
         });
       }
-    } catch (error) {
-      // @ts-ignore
-      toaster.error({ description: error.data.message });
+    } catch (error: unknown) {
+      toaster.error({ description: getApiErrorMessage(error) });
     }
   }
 
@@ -44,28 +44,26 @@ const Recovery = () => {
       <Formik
         initialValues={{ email: "" }}
         validationSchema={emailSchema}
-        onSubmit={(values) => onSubmit(values)}
+        onSubmit={onSubmit}
+        enableReinitialize
       >
-        {(formik) => (
-          <Form>
-            <Field
-              name="email"
-              render={({ field }) => (
-                <>
-                  <Input
-                    mt={"2"}
-                    px={"2"}
-                    name="email"
-                    placeholder="Emailingizni kiriting"
-                    value={field.value}
-                    onChange={field.onChange}
-                    onBlur={field.handleBlur}
-                    variant={"subtle"}
-                  />
-                  <ErrorMessage name="email" />
-                </>
-              )}
-            />
+        {({ values, errors, touched, handleChange, handleSubmit }) => (
+          <Form onSubmit={handleSubmit}>
+            <Field.Root invalid={!!(touched.email && errors.email)} mt="2">
+              <Field.Label fontSize={"xl"}>Email</Field.Label>
+              <Input
+                p={"2"}
+                style={{
+                  borderColor: errors.email && touched.email ? "red" : "gray",
+                }}
+                name="email"
+                value={values.email}
+                onChange={handleChange}
+                placeholder="Email manzilingizni kiriting"
+              />
+              <Field.ErrorText>{errors.email}</Field.ErrorText>
+            </Field.Root>
+
             <Button type="submit" w={"full"} mt={"3"} disabled={isLoading}>
               Havolani olish
             </Button>

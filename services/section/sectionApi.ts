@@ -42,7 +42,7 @@ export const sectionApi = baseApi.injectEndpoints({
         body: {
           sections: sections.map((section, index) => ({
             id: section.id,
-            orderIndex: index,
+            orderIndex: index + 1,
           })),
         },
       }),

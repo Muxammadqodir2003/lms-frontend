@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  getLessonsLength,
-  transformSecondsToMinutes,
-} from "@/lib/helper/getCourseData";
+import { getDuration } from "@/lib/helper/getCourseData";
 import { useGetSectionsByCourseSlugQuery } from "@/services/section/sectionApi";
 import { Accordion } from "@chakra-ui/react/accordion";
 import { Flex } from "@chakra-ui/react/flex";
@@ -11,6 +8,8 @@ import { Text } from "@chakra-ui/react/text";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { BiCheckCircle, BiPlayCircle } from "react-icons/bi";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
+import { Loader } from "@chakra-ui/react";
 
 interface AccardionContentProps {
   slug: string;
@@ -20,10 +19,11 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
   const searchParams = useSearchParams();
   const lessonId = searchParams.get("lessonId");
 
-  const { data, isLoading, isError } = useGetSectionsByCourseSlugQuery(slug);
+  const { data, isLoading, isError, error } =
+    useGetSectionsByCourseSlugQuery(slug);
 
-  if (isLoading) return <Text>Loading...</Text>;
-  if (isError) return <Text>Error</Text>;
+  if (isLoading) return <Loader />;
+  if (isError) return <Text>{getApiErrorMessage(error)}</Text>;
 
   return (
     <Flex w={"full"} mt={{ base: "2", md: "2", lg: "0", xl: "0" }}>
@@ -40,9 +40,7 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
             >
               <Text>{section.name}</Text>
               <Flex gap={"2"}>
-                <Text>
-                  {transformSecondsToMinutes(getLessonsLength(section))}
-                </Text>
+                <Text>{getDuration(section.totalDuration)}</Text>
                 <Accordion.ItemIndicator />
               </Flex>
             </Accordion.ItemTrigger>
@@ -73,7 +71,7 @@ const AccardionContent = ({ slug }: AccardionContentProps) => {
                         <Text>{lesson.name}</Text>
                       </Link>
                     </Flex>
-                    <Text>{transformSecondsToMinutes(lesson.duration)}</Text>
+                    <Text>{getDuration(lesson.duration)}</Text>
                   </Flex>
                 ))}
               </Accordion.ItemBody>

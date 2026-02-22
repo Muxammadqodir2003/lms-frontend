@@ -10,6 +10,8 @@ import { Text } from "@chakra-ui/react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import { useEditedCourse } from "@/hooks/useEditedCourse";
 import { useDeleteLessonMutation } from "@/services/lesson/lessonApi";
+import { toaster } from "@/components/ui/toaster";
+import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 interface LessonItemProps {
   lesson: ILesson;
@@ -17,11 +19,22 @@ interface LessonItemProps {
 }
 
 const LessonItem = ({ lesson, setShowForm }: LessonItemProps) => {
-  const [deleteLesson, { isLoading, error }] = useDeleteLessonMutation();
+  const [deleteLesson, { isLoading }] = useDeleteLessonMutation();
 
   const { setEditedLesson } = useEditedCourse();
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({ id: lesson.id });
+
+  const handleDeleteLesson = () => {
+    try {
+      deleteLesson(lesson.id);
+    } catch (error: unknown) {
+      toaster.error({
+        title: "Xatolik",
+        description: getApiErrorMessage(error),
+      });
+    }
+  };
 
   const style = { transform: CSS.Transform.toString(transform), transition };
 
@@ -49,10 +62,7 @@ const LessonItem = ({ lesson, setShowForm }: LessonItemProps) => {
         </Text>
       </HStack>
       <HStack>
-        <FaDeleteLeft
-          cursor={"pointer"}
-          onClick={() => deleteLesson(lesson.id)}
-        />
+        <FaDeleteLeft cursor={"pointer"} onClick={handleDeleteLesson} />
       </HStack>
     </Flex>
   );

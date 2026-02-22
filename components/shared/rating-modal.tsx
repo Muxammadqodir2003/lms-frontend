@@ -18,6 +18,7 @@ import { Form, Formik } from "formik";
 import { useState } from "react";
 import { useAddRatingMutation } from "@/services/rating/ratingApi";
 import { toaster } from "../ui/toaster";
+import { IError } from "@/types";
 
 const RatingModal = ({ slug }: { slug: string }) => {
   const { data } = useGetRatingQuery(slug);
@@ -38,8 +39,7 @@ const RatingModal = ({ slug }: { slug: string }) => {
     } catch (error) {
       toaster.error({
         title: "Error",
-        // @ts-ignore
-        description: error?.data?.message,
+        description: (error as IError)?.data?.message,
       });
     }
   }
