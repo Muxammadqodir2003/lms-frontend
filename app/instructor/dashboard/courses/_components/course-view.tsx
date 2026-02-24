@@ -9,6 +9,7 @@ import { getApiErrorMessage } from "@/lib/helper/error-handler";
 
 const CourseView = () => {
   const [isActive, setIsActive] = useState(false);
+
   const { data, isLoading, error } = useGetAllCoursesQuery();
   const isPublished = useMemo(
     () => data?.filter((course) => course.isPublished),
