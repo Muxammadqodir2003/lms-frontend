@@ -30,8 +30,6 @@ Drag & Drop Curriculum: Built-in support for reordering course sections and less
 
 Rich Text Editing: Integrated with Quill.js to allow instructors to write formatted descriptions, embed links, and style their content.
 
-Video Player: Custom video integration for a smooth learning experience.
-
 🛡️ Security & Auth Integration
 Social Login: Ready-to-use buttons for Google and GitHub OAuth.
 
@@ -50,46 +48,47 @@ State Management: Zustand / Context API
 
 Icons & UI: Lucide React, Framer Motion (for animations)
 
-Rich Text: React-Quill
+Rich Text: Quill
 
 ⚙️ Environment Configuration (.env)
 The frontend is configured to communicate with the production API:
-
-Code snippet
-
+```Code snippet
 NEXT_PUBLIC_API_URL=[https://muhammadqodir.duckdns.org](https://muhammadqodir.duckdns.org)
+```
+
 🚀 Deployment & Production
 The frontend is deployed with the following production-grade setup:
 
 Domain: Secured with HTTPS via duckdns.org.
 
-Deployment: Hosted on AWS EC2 (via Docker) or Vercel.
+Deployment: Vercel.
 
 Optimization: Optimized image loading and server-side rendering (SSR) for fast performance.
 
 ⚙️ Installation & Setup
 Clone the repository:
 
-Bash
-
+```Bash
 git clone [https://github.com/Muxammadqodir2003/lms-frontend.git](https://github.com/Muxammadqodir2003/lms-frontend.git)
 cd lms-frontend
+```
+
 Install dependencies:
-
-Bash
-
+```Bash
 npm install
+```
+
 Run the development server:
-
-Bash
-
+```Bash
 npm run dev
+```
+
 Build for production:
-
-Bash
-
+```Bash
 npm run build
 npm run start
+```
+
 🤝 Connection with Backend
 This frontend is fully compatible with the LMS Backend (NestJS). It handles:
 
